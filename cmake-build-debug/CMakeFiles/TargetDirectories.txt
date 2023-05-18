@@ -1,0 +1,3 @@
+C:/Users/40787/Desktop/PP-SPACE-INVASION/cmake-build-debug/CMakeFiles/PP_SPACE_INVASION.dir
+C:/Users/40787/Desktop/PP-SPACE-INVASION/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/40787/Desktop/PP-SPACE-INVASION/cmake-build-debug/CMakeFiles/rebuild_cache.dir
