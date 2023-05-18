@@ -14,4 +14,3 @@
 constexpr unsigned char SCREEN_RESIZE = 4;
 constexpr unsigned short SCREEN_HEIGHT = 180;
 constexpr unsigned short SCREEN_WIDTH = 320;
-dw
