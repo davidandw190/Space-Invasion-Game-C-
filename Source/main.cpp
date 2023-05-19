@@ -2,8 +2,6 @@
 #include <SFML/Graphics.hpp> // for display
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
-
-
 #include <chrono>             // for timing
 #include <random>
 #include "Headers/Global.hpp"
@@ -32,17 +30,51 @@ int main() {
 
     prev_time = std::chrono::steady_clock::now();
 
-    while (window.isOpen())
-    {
+    while (window.isOpen()) {
+
         sf::Event event{};
 
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
+        std::chrono::microseconds delta_time =
+                std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - prev_time);
+
+        lag += delta_time; // the lag is now a separate entity, and we will generate the frames in the game according
+                            // to its current value
+
+        prev_time += delta_time;
+
+        while (FRAME_DURATION <= lag) {
+            lag -= FRAME_DURATION;
+
+
+            while (window.pollEvent(event)) {
+                switch (event.type)
+                {
+                    case sf::Event::Closed:
+                    {
+                        window.close();
+                    }
+                    case sf::Event::Resized:  // most likely we will not make the window resizable
+                        break;
+
+                }
+
+            }
+
         }
 
-        window.clear();
+        if (FRAME_DURATION > lag) {
+            window.clear();
+
+            window.draw(background_sprite);
+        }
+
+//        while (window.pollEvent(event))
+//        {
+//            if (event.type == sf::Event::Closed)
+//                window.close();
+//        }
+
+        window.draw(background_sprite);
         window.display();
     }
 
