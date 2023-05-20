@@ -21,6 +21,7 @@ class Player {
         sf::Sprite sprite;
         sf::Texture texture;
 
+        int current_power;
         bool dead;
 
     public:
@@ -33,11 +34,13 @@ class Player {
         unsigned short get_y() const;
 
         void die();
-        void draw(sf::RenderWindow& i_window);
-        void reset();
-        void update(std::mt19937_64& i_random_engine, std::vector<Bullet>& i_enemy_bullets, std::vector<Enemy>& i_enemies, Ufo& i_ufo);
+        void draw(sf::RenderWindow& window);
 
-        sf::IntRect get_hitbox() const;
+        void reset();
+//        void update(std::mt19937_64& i_random_engine, std::vector<Bullet>& i_enemy_bullets, std::vector<Enemy>& i_enemies, Ufo& i_ufo);
+
+        sf::IntRect get_hitbox() const;  // will be used for colision detection
+
 
 
 };
