@@ -8,6 +8,9 @@
 
 #endif
 
+#include <cmath>
+
+
 // a base size that will be used as point of reference for all other sizes
 constexpr unsigned char BASE_SIZE = 16;
 
