@@ -18,11 +18,10 @@ class Player {
         unsigned short x;
         unsigned short y;
 
-        unsigned char reload_timer;
+        sf::Sprite sprite;
+        sf::Texture texture;
 
         bool dead;
-        bool dead_animation_over;
-        bool shield_animation_over;
 
     public:
         Player(); // the constructor. because we put pragama once at the to
