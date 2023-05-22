@@ -11,6 +11,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <random>
+
 
 
 class Entity {
@@ -28,9 +30,10 @@ class Entity {
         // these virtual methods will need to be implemented in the child classes
         bool get_dead() const;
 
-        virtual void update() = 0;
-        virtual sf::IntRect get_hitbox() const = 0;
+        virtual void update(std::mt19937_64&) = 0;
         virtual void draw(sf::RenderWindow& window) = 0;
+
+        virtual sf::IntRect get_hitbox() const = 0;
 
         unsigned short get_x() const;
         unsigned short get_y() const;

@@ -39,7 +39,7 @@ class Player: public Entity {
         void draw(sf::RenderWindow& window) override;
 
         void reset();
-//        void update(std::mt19937_64& i_random_engine, std::vector<Bullet>& i_enemy_bullets, std::vector<Enemy>& i_enemies, Ufo& i_ufo);
+        void update(std::mt19937_64& i_random_engine) override;
 
         sf::IntRect get_hitbox() const override;  // will be used for collision detection
 

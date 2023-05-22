@@ -19,7 +19,7 @@ Player::Player() : Entity() {
 
     current_power = 0;
 
-    texture.loadFromFile("Resources/Test-Player.png");
+    texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Test-Player.png)");
     sprite.setTexture(texture);
 
 }
@@ -42,7 +42,7 @@ void Player::die() {
 
 void Player::draw(sf::RenderWindow& window) {
     if (!dead) {
-        //sprite.setPosition(x, y);   //this does not work
+        //sprite.setPosition(x, y);   //this does not work, I have to fix it
         sprite.setTextureRect(
                 sf::IntRect(BASE_SIZE * current_power, 0, BASE_SIZE, BASE_SIZE));
 
@@ -51,6 +51,24 @@ void Player::draw(sf::RenderWindow& window) {
     }
 }
 
-sf::IntRect Player::get_hitbox() const {  // this is the same as writing return sf::IntRect
-    return {};
+sf::IntRect Player::get_hitbox() const {
+    return sf::IntRect(
+            x + 0.125f * BASE_SIZE,
+            y + 0.125f * BASE_SIZE,
+            0.75f * BASE_SIZE,
+            0.75f * BASE_SIZE
+            );
+}
+
+void Player::update(std::mt19937_64& i_random_engine) {
+    if (!dead) {
+        if (1 == sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+            x = std::max<int>(x - PLAYER_MOVE_SPEED, BASE_SIZE);
+        }
+
+        if (1 == sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            x = std::min<int>(PLAYER_MOVE_SPEED + x, SCREEN_WIDTH - 2 * BASE_SIZE);
+        }
+    }
+
 }

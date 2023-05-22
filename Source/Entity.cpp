@@ -3,6 +3,8 @@
 //
 
 #include "Headers/Entity.hpp"
+#include <random>
+
 
 Entity::Entity() = default;
 

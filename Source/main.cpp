@@ -5,6 +5,7 @@
 #include <chrono>             // for timing
 #include <random>
 #include "Headers/Global.hpp"
+#include "Headers/Player.hpp"
 
 
 int main() {
@@ -25,10 +26,12 @@ int main() {
     sf::Sprite background_sprite;
     sf::Texture background_texture;
 
-    background_texture.loadFromFile("Resources/Background.png");
+    background_texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Background.png)");
     background_sprite.setTexture(background_texture);
 
     prev_time = std::chrono::steady_clock::now();
+
+    Player player;
 
     while (window.isOpen()) {
 
@@ -75,6 +78,7 @@ int main() {
 //        }
 
         window.draw(background_sprite);
+        player.draw(window);
         window.display();
     }
 
