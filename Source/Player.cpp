@@ -42,9 +42,12 @@ void Player::die() {
 
 void Player::draw(sf::RenderWindow& window) {
     if (!dead) {
-        //sprite.setPosition(x, y);   //this does not work, I have to fix it
+        // Here we basically iterate over the player texture according to `the current_power` offset
         sprite.setTextureRect(
                 sf::IntRect(BASE_SIZE * current_power, 0, BASE_SIZE, BASE_SIZE));
+
+        // I set the position of the player's sprite as a vector since it does not accept actulat ints
+        sprite.setPosition(sf::Vector2f(x, y));
 
         window.draw(sprite);
 
