@@ -18,7 +18,6 @@ Player::Player() : Entity() {
     reset(); // for when we transition to a new level etc., because we will cal again the constructor
 
     current_power = 0;
-
     reload_timer = 0;
 
     texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Test-Player.png)");

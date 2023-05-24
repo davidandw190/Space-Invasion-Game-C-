@@ -19,8 +19,10 @@ class Entity {
 
     protected:
         bool dead{};
+
         unsigned short x{};
         unsigned short y{};
+
         sf::Sprite sprite;
         sf::Texture texture;
 
