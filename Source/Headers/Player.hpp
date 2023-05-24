@@ -7,6 +7,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <random>
 #include "Entity.hpp"
+#include "Bullet.hpp"
 
 #ifndef PP_SPACE_INVASION_PLAYER_HPP
 #define PP_SPACE_INVASION_PLAYER_HPP
@@ -24,14 +25,21 @@ class Player: public Entity {
         sf::Sprite sprite;
         sf::Texture texture;
 
-        int current_power;
+        std::vector<Bullet> bullets;
+
+        sf::Sprite bullet_sprite;
+        sf::Texture bullet_texture;
+
+        unsigned char current_power;
+        unsigned char reload_timer;
+
         bool dead{};
 
     public:
-        Player(); // the constructor. because we put pragama once at the to
-                  // this will only be executed once(till we begin multiplayer)
+        Player();
 
         bool get_dead() const;
+
         bool get_dead_animation_over() const;
 
 
