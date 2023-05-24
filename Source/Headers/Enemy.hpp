@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <random>
+#include "Bullet.hpp"
 
 #ifndef PP_SPACE_INVASION_ENEMY_H
 #define PP_SPACE_INVASION_ENEMY_H
