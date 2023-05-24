@@ -27,9 +27,9 @@ class Entity {
     public:
         Entity();
 
-        // these virtual methods will need to be implemented in the child classes
         bool get_dead() const;
 
+        // these virtual methods will need to be implemented in the child classes
         virtual void update(std::mt19937_64&) = 0;
         virtual void draw(sf::RenderWindow& window) = 0;
 

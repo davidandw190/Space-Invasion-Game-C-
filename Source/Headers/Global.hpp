@@ -9,6 +9,7 @@
 #endif
 
 #include <cmath>
+#include <chrono>
 
 
 // a base size that will be used as point of reference for all other sizes

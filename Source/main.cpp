@@ -50,17 +50,19 @@ int main() {
 
 
             while (window.pollEvent(event)) {
-                switch (event.type)
-                {
-                    case sf::Event::Closed:
-                    {
+                switch (event.type) {
+                    case sf::Event::Closed: {
                         window.close();
                     }
-                    case sf::Event::Resized:  // most likely we will not make the window resizable
+                    case sf::Event::Resized: {  // most likely we will not make the window resizable
                         break;
-
+                    }
                 }
 
+            }
+
+            if (1 == sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+                player.reset();
             }
 
         }
@@ -68,16 +70,14 @@ int main() {
         if (FRAME_DURATION > lag) {
             window.clear();
 
+
             window.draw(background_sprite);
+
         }
 
-//        while (window.pollEvent(event))
-//        {
-//            if (event.type == sf::Event::Closed)
-//                window.close();
-//        }
 
         window.draw(background_sprite);
+        player.update(random_engine);
         player.draw(window);
         window.display();
     }

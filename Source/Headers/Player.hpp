@@ -45,4 +45,5 @@ class Player: public Entity {
 
 
 
+    void update(std::mt19937_64 &i_random_engine, std::chrono::microseconds elapsed_time);
 };

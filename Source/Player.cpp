@@ -65,11 +65,11 @@ sf::IntRect Player::get_hitbox() const {
 
 void Player::update(std::mt19937_64& i_random_engine) {
     if (!dead) {
-        if (1 == sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
             x = std::max<int>(x - PLAYER_MOVE_SPEED, BASE_SIZE);
         }
 
-        if (1 == sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
             x = std::min<int>(PLAYER_MOVE_SPEED + x, SCREEN_WIDTH - 2 * BASE_SIZE);
         }
     }
