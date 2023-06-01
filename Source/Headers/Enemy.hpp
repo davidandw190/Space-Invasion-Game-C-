@@ -11,31 +11,34 @@
 #ifndef PP_SPACE_INVASION_ENEMY_H
 #define PP_SPACE_INVASION_ENEMY_H
 
-#endif //PP_SPACE_INVASION_ENEMY_H
+
 
 class Enemy: public Entity {
-    private:
-        short direction; //-1 left, +1 right, 0 down
 
-        unsigned short enemy_type;
-        unsigned char hit_points;
-        unsigned char hit_timer;
-        unsigned short x;
-        unsigned short y;
+private:
+    char direction; //-1 left, +1 right, 0 down
 
-    public:
-        Enemy(unsigned short i_enemy_type, unsigned short i_x, unsigned short i_y);
+    unsigned char health;
 
-        unsigned char get_hit_points() const;
-        unsigned char get_hit_timer() const;
-        unsigned short get_enemy_type() const;
-        unsigned short get_x() const;
-        unsigned short get_y() const;
+    unsigned char enemy_type;
+    unsigned char hit_points;
+    unsigned char hit_timer;
 
-        void move();
-        void hit();
-        void shoot(std::vector<Bullet>& i_EnemyBullets);
-        void update();
+public:
+    Enemy(unsigned char enemy_type, unsigned short x, unsigned short y);
 
-        sf::IntRect get_hitbox() const;
+    unsigned char get_hit_points() const;
+    unsigned char get_hit_timer() const;
+    unsigned short get_enemy_type() const;;
+
+    void move();
+    void hit();
+    void shoot(std::vector<Bullet>& enemy_bullets);
+    void update();
+
+    sf::IntRect get_hitbox() const override;
+
+    void shoot();
 };
+
+#endif //PP_SPACE_INVASION_ENEMY_H

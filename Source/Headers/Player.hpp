@@ -17,30 +17,19 @@
 
 class Player: public Entity {
 
-    private:
-        unsigned short x{};
-        unsigned short y{};
+private:
+    unsigned char current_power;
+    unsigned char reload_timer;
 
-        sf::Sprite sprite;
-        sf::Texture texture;
+    bool dead{};
 
-        unsigned char current_power;
-        unsigned char reload_timer;
+public:
+    Player();
 
-        bool dead{};
-
-    public:
-        Player();
-
-
-
-
-        void die();
-        void draw(sf::RenderWindow& window) override;
-
-        void reset();
-        void update(std::mt19937_64& i_random_engine) override;
-
-        sf::IntRect get_hitbox() const override;  // will be used for collision detection
+    void reset();
+    void die();
+    void draw(sf::RenderWindow& window) override;
+    void update(std::mt19937_64& random_engine) override;
+    sf::IntRect get_hitbox() const override;  // will be used for collision detection
 
 };
