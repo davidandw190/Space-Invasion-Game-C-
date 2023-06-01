@@ -11,8 +11,16 @@
 #include "Headers/Enemy.hpp"
 #include "Headers/Global.hpp"
 
-Enemy::Enemy() : Entity(), Enemy() {
-
+Enemy::Enemy(unsigned char type, unsigned short x, unsigned short y)
+    :Entity(),
+     direction(0 == (y / BASE_SIZE) % 2 ? -1 : 1),
+     health(1 + type),
+     hit_timer(0),
+     hit_points(0),
+     enemy_type(type)
+{
+    this->x = x;
+    this->y = y;
 }
 
 unsigned char Enemy::get_hit_points() const {
@@ -27,13 +35,6 @@ unsigned short Enemy::get_enemy_type() const {
 
 }
 
-unsigned short Enemy::get_x() const {
-
-}
-
-unsigned short Enemy::get_y() const {
-
-}
 
 void Enemy::move() {
 
@@ -52,5 +53,9 @@ void Enemy::shoot() {
 }
 
 sf::IntRect Enemy::get_hitbox() const {
+
+}
+
+void Enemy::shoot(std::vector<Bullet> &EnemyBullets) {
 
 }
