@@ -8,7 +8,7 @@
 #include <SFML/Graphics/Rect.hpp>
 
 Bullet::Bullet(float step_x, float step_y, short x, short y)
-        : dead(false),
+        : dead(false), // the bullet, not the player
           real_x(x),
           real_y(y),
           step_x(step_x),
