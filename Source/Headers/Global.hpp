@@ -22,6 +22,14 @@ constexpr unsigned short SCREEN_WIDTH = 320;
 
 // player related stuff
 constexpr unsigned char PLAYER_MOVE_SPEED = 2;
+constexpr unsigned char PLAYER_BULLET_SPEED = 4;
+constexpr unsigned char RELOAD_DURATION = 30;
+constexpr unsigned char FAST_RELOAD_DURATION = 6;
+
+
+constexpr unsigned char ENEMY_BULLET_SPEED = 2;
 
 // a constant for the frame duration in ms
 constexpr std::chrono::microseconds FRAME_DURATION(16667);
+
+
