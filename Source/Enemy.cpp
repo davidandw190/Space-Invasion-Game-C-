@@ -11,7 +11,7 @@
 #include "Headers/Enemy.hpp"
 #include "Headers/Global.hpp"
 
-Enemy::Enemy() : Entity() {
+Enemy::Enemy() : Entity(), Enemy() {
 
 }
 

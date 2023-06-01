@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.25)
 project(PP_SPACE_INVASION)
 
 set(CMAKE_CXX_STANDARD 17)
-add_executable(PP_SPACE_INVASION Source/main.cpp Source/Headers/Player.hpp Source/Player.cpp Source/Headers/Entity.hpp Source/Entity.cpp Source/Headers/Bullet.hpp Source/Bullet.cpp Source/Headers/Enemy.hpp)
+add_executable(PP_SPACE_INVASION Source/main.cpp Source/Headers/Player.hpp Source/Player.cpp Source/Headers/Entity.hpp Source/Entity.cpp Source/Headers/Bullet.hpp Source/Bullet.cpp Source/Headers/Enemy.hpp Source/Enemy.cpp)
 
 set(SFML_STATIC_LIBRARIES TRUE)
 set(SFML_DIR C:/SFML/lib/cmake/SFML)

@@ -12,7 +12,6 @@
 #include "Headers/Global.hpp"
 
 
-
 Player::Player() : Entity() {
 
     reset(); // for when we transition to a new level etc., because we will cal again the constructor
@@ -33,9 +32,6 @@ void Player::reset() {
 
 }
 
-bool Player::get_dead() const {
-    return dead;
-}
 
 void Player::die() {
     dead = true;
@@ -62,6 +58,7 @@ sf::IntRect Player::get_hitbox() const {
             0.75f * BASE_SIZE,
             0.75f * BASE_SIZE
             );
+
 }
 
 void Player::update(std::mt19937_64& random_engine) {

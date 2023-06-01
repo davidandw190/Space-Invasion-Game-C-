@@ -32,8 +32,7 @@ class Player: public Entity {
     public:
         Player();
 
-        bool get_dead() const;
-        bool get_dead_animation_over() const;
+
 
 
         void die();
@@ -43,7 +42,5 @@ class Player: public Entity {
         void update(std::mt19937_64& i_random_engine) override;
 
         sf::IntRect get_hitbox() const override;  // will be used for collision detection
-
-
 
 };

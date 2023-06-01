@@ -18,7 +18,7 @@ int main() {
     );
 
     sf::RenderWindow window(sf::VideoMode(SCREEN_RESIZE * SCREEN_WIDTH, SCREEN_RESIZE * SCREEN_HEIGHT),
-                            "TEST-title-idk",
+                            "TEST Retro Shooter Game - VERSION 0.0.1",
                             sf::Style::Close);
 
     window.setView(sf::View(sf::FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)));
@@ -69,12 +69,8 @@ int main() {
 
         if (FRAME_DURATION > lag) {
             window.clear();
-
-
             window.draw(background_sprite);
-
         }
-
 
         window.draw(background_sprite);
         player.update(random_engine);
