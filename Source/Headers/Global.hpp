@@ -26,6 +26,9 @@ constexpr unsigned char PLAYER_BULLET_SPEED = 4;
 constexpr unsigned char RELOAD_DURATION = 30;
 constexpr unsigned char FAST_RELOAD_DURATION = 6;
 
+// Enemy related stuff
+constexpr unsigned char ENEMY_HIT_TIMER_DURATION = 1;
+constexpr unsigned char ENEMY_MOVE_SPEED = 1;
 
 constexpr unsigned char ENEMY_BULLET_SPEED = 2;
 

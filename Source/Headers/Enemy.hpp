@@ -28,8 +28,11 @@ public:
     Enemy(unsigned char enemy_type, unsigned short x, unsigned short y);
 
     unsigned char get_hit_points() const;
-    unsigned char get_hit_timer() const;
+    unsigned char get_hit_timer() const; //Enemy changes color for a bit as a reaction to being hit
     unsigned short get_enemy_type() const;;
+
+    unsigned short get_x() const;
+    unsigned short get_y() const;
 
     void move();
     void hit();
