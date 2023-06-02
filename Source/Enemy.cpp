@@ -35,15 +35,6 @@ unsigned short Enemy::get_enemy_type() const {
     return enemy_type;
 }
 
-unsigned short Enemy::get_x() const
-{
-    return x;
-}
-
-unsigned short Enemy::get_y() const
-{
-    return y;
-}
 
 void Enemy::hit() {
     hit_timer = ENEMY_HIT_TIMER_DURATION;

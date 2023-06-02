@@ -29,10 +29,7 @@ public:
 
     unsigned char get_hit_points() const;
     unsigned char get_hit_timer() const; //Enemy changes color for a bit as a reaction to being hit
-    unsigned short get_enemy_type() const;;
-
-    unsigned short get_x() const;
-    unsigned short get_y() const;
+    unsigned short get_enemy_type() const;
 
     void move();
     void hit();
@@ -40,8 +37,6 @@ public:
     void update();
 
     sf::IntRect get_hitbox() const override;
-
-    void shoot();
 };
 
 #endif //PP_SPACE_INVASION_ENEMY_H
