@@ -38,6 +38,8 @@ void Player::reset() {
     x = 0.5f * (SCREEN_WIDTH - BASE_SIZE);  // x and y position the player
     y = SCREEN_HEIGHT - 2 * BASE_SIZE;
 
+    player_bullets.clear();
+
 }
 
 
@@ -91,13 +93,15 @@ void Player::update(std::mt19937_64& random_engine) {
         }
 
         // player shoot
-        if (!reload_timer) {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+        if (reload_timer == 0) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
                 // we will do interesting stuff here when we get to the power-ups
                 reload_timer = RELOAD_DURATION;
+
+                player_bullets.push_back(Bullet(0, -PLAYER_BULLET_SPEED, x, y));
             }
 
-            player_bullets.push_back(Bullet(0, -PLAYER_BULLET_SPEED, x, y));
+
 
 
         } else {
