@@ -17,6 +17,7 @@ class EnemyManager {
 
 private:
     unsigned short move_timer;
+    unsigned short pause;
 
     //To use the randomness from the <random> library, we need to define the distribution.
     std::uniform_int_distribution<unsigned short> shoot_distrib;
