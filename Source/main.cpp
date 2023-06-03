@@ -63,7 +63,7 @@ int main() {
                 player.die();
             }
 
-            player.update(random_engine);
+            player.update(random_engine, enemyManager.get_enemy_bullets(), enemyManager.get_enemies());
             enemyManager.update(random_engine);
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {

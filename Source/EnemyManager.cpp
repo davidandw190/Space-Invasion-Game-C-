@@ -24,12 +24,13 @@ bool EnemyManager::reached_player(unsigned short player_y) const {
     for (const Enemy& enemy: this->enemies) {
         if (enemy.get_y() > player_y - 0.5f * BASE_SIZE) {
             // we will make this end the game
-            return 1;
+            return true;
         }
     }
+    return false;
 }
 
-void EnemyManager::draw(sf::RenderWindow &window) {
+void EnemyManager::draw(sf::RenderWindow& window) {
 
     for (const Bullet& bullet : this->enemy_bullets) {
 
@@ -59,6 +60,8 @@ void EnemyManager::draw(sf::RenderWindow &window) {
 
 
 }
+
+
 
 void EnemyManager::update(std::mt19937_64& random_engine) {
     std::vector<Enemy>::iterator dead_enemies_start;

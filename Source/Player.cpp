@@ -11,6 +11,7 @@
 #include "Headers/Player.hpp"
 #include "Headers/Global.hpp"
 #include "Headers/Bullet.hpp"
+#include "Headers/Enemy.hpp"
 
 
 Player::Player() : Entity() {
@@ -28,6 +29,10 @@ Player::Player() : Entity() {
 }
 
 void Player::reset() {
+
+    this->current_power = 0;
+    this->reload_timer = 0;
+
     this->dead = false;
     this->x = 0.5f * (SCREEN_WIDTH - BASE_SIZE);  // x and y position the player
     this->y = SCREEN_HEIGHT - 2 * BASE_SIZE;
@@ -59,7 +64,6 @@ void Player::draw(sf::RenderWindow& window) {
 
         window.draw(sprite);
 
-        window.draw(sprite);
 
     }
 }
@@ -74,7 +78,7 @@ sf::IntRect Player::get_hitbox() const {
 
 }
 
-void Player::update(std::mt19937_64& random_engine) {
+void Player::update(std::mt19937_64& random_engine, std::vector<Bullet>& enemy_bullets, std::vector<Enemy>& enemies) {
     if (!dead) {
         // move left
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
@@ -95,21 +99,50 @@ void Player::update(std::mt19937_64& random_engine) {
                 player_bullets.push_back(Bullet(0, -PLAYER_BULLET_SPEED, x, y));
             }
 
-
-
-
         } else {
             reload_timer--;
+        }
+
+        for (Bullet& bullet : enemy_bullets) {
+            if (this->get_hitbox().intersects(bullet.get_hitbox())) {
+                this->dead = true;
+            }
+
+            bullet.dead = true; // we have to also kill the bullet haha
+
+            break;
+
+
         }
 
 
     }
 
-    for (Bullet& bullet : player_bullets)
-    {
+    for (Bullet& bullet : player_bullets) {
         bullet.update();
 
     }
+
+    for (Enemy& enemy : enemies)
+    {
+        for (Bullet& bullet : player_bullets)
+        {
+            if ((!bullet.dead) && (0 < enemy.get_health())
+            && enemy.get_hitbox().intersects(bullet.get_hitbox())) {
+
+                bullet.dead = true;
+
+                enemy.hit();
+
+                break;
+            }
+        }
+    }
+
+    player_bullets.erase(remove_if(player_bullets.begin(), player_bullets.end(), [](const Bullet& i_bullet)
+    {
+        return 1 == i_bullet.dead;
+    }), player_bullets.end());
 
 
 

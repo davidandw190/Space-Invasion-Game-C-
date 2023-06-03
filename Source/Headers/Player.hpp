@@ -8,6 +8,7 @@
 #include <random>
 #include "Entity.hpp"
 #include "Bullet.hpp"
+#include "Enemy.hpp"
 
 #ifndef PP_SPACE_INVASION_PLAYER_HPP
 #define PP_SPACE_INVASION_PLAYER_HPP
@@ -34,8 +35,11 @@ public:
 
     void reset();
     void die();
-    void draw(sf::RenderWindow& window) override;
-    void update(std::mt19937_64& random_engine) override;
+
     sf::IntRect get_hitbox() const override;  // will be used for collision detection
 
+
+    void draw(sf::RenderWindow &window);
+
+    void update(std::mt19937_64 &random_engine, std::vector<Bullet> &enemy_bullets, std::vector<Enemy> &enemies);
 };

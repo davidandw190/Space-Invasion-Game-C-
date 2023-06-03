@@ -34,7 +34,6 @@ public:
     unsigned short get_y() const;
 
     // these virtual methods will need to be implemented in the child classes
-    virtual void update(std::mt19937_64&) = 0;
     virtual void draw(sf::RenderWindow& window) = 0;
     virtual sf::IntRect get_hitbox() const = 0;
 

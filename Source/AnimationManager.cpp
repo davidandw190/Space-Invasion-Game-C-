@@ -50,7 +50,6 @@ bool AnimationManager::update() {
 }
 
 void AnimationManager::draw(short x, short y, sf::RenderWindow& window, const sf::Color& color) {
-    //I added coloring for the explosions.
     sprite.setColor(color);
     sprite.setPosition(x, y);
     sprite.setTexture(texture);
@@ -59,8 +58,7 @@ void AnimationManager::draw(short x, short y, sf::RenderWindow& window, const sf
     window.draw(sprite);
 }
 
-void AnimationManager::reset()
-{
+void AnimationManager::reset() {
     animation_iterator = 0;
     curr_frame = 0;
 }
