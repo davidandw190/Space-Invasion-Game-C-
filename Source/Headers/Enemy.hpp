@@ -37,6 +37,8 @@ public:
     void update();
 
     sf::IntRect get_hitbox() const override;
+
+    unsigned char get_health() const;
 };
 
 #endif //PP_SPACE_INVASION_ENEMY_H
