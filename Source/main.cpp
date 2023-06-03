@@ -7,6 +7,7 @@
 #include <random>
 #include "Headers/Global.hpp"
 #include "Headers/Player.hpp"
+#include "Headers/EnemyManager.hpp"
 
 int main() {
     std::chrono::microseconds lag(0);   // to keep track of time between frames
@@ -33,6 +34,9 @@ int main() {
     background_sprite.setTexture(background_texture);
 
     Player player;
+
+    EnemyManager enemyManager;
+
     prev_time = std::chrono::steady_clock::now();   // the initial value of prev_time
 
     while (window.isOpen()) {
@@ -55,7 +59,12 @@ int main() {
                 }
             }
 
+            if (1 == enemyManager.reached_player(player.get_y())) {
+                player.die();
+            }
+
             player.update(random_engine);
+            enemyManager.update(random_engine);
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
                 player.reset();
@@ -67,6 +76,7 @@ int main() {
 
         if (!player.get_dead()) {
             player.draw(window);
+            enemyManager.draw(window);
         }
 
         window.display();
