@@ -14,12 +14,10 @@
 
 
 Player::Player() : Entity() {
-    reset(); // for when we transition to a new level etc., because we will cal again the constructor
+    reset();    // for when we transition to a new level etc., because we will call again the constructor
 
     current_power = 0;
     reload_timer = 0;
-
-
 
     texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Test-Player.png)");
     bullet_texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Player-Bullet.png)");
@@ -27,24 +25,20 @@ Player::Player() : Entity() {
     sprite.setTexture(texture);
     bullet_sprite.setTexture(bullet_texture);
 
-
-
-
-
 }
 
 void Player::reset() {
-    dead = false;
-    x = 0.5f * (SCREEN_WIDTH - BASE_SIZE);  // x and y position the player
-    y = SCREEN_HEIGHT - 2 * BASE_SIZE;
+    this->dead = false;
+    this->x = 0.5f * (SCREEN_WIDTH - BASE_SIZE);  // x and y position the player
+    this->y = SCREEN_HEIGHT - 2 * BASE_SIZE;
 
-    player_bullets.clear();
+    this->player_bullets.clear();
 
 }
 
 
 void Player::die() {
-    dead = true;
+    this->dead = true;
 }
 
 void Player::draw(sf::RenderWindow& window) {
@@ -84,12 +78,12 @@ void Player::update(std::mt19937_64& random_engine) {
     if (!dead) {
         // move left
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            x = std::max<int>(x - PLAYER_MOVE_SPEED, BASE_SIZE);
+            this->x = std::max<int>(x - PLAYER_MOVE_SPEED, BASE_SIZE);
         }
 
         // move right
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-            x = std::min<int>(PLAYER_MOVE_SPEED + x, SCREEN_WIDTH - 2 * BASE_SIZE);
+            this->x = std::min<int>(PLAYER_MOVE_SPEED + x, SCREEN_WIDTH - 2 * BASE_SIZE);
         }
 
         // player shoot
