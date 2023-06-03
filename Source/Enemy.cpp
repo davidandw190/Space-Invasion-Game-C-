@@ -66,6 +66,7 @@ void Enemy::move() {
         this->y = std::min<short>(y + ENEMY_MOVE_SPEED, BASE_SIZE * ceil(y / static_cast<float>(BASE_SIZE)));
 
         if (this->y == BASE_SIZE * ceil(this->y / static_cast<float>(BASE_SIZE))) {
+
             //Checking which direction the enemy should move in
             this->direction = (this->y / BASE_SIZE) % 2 == 0 ? -1 : 1;
         }

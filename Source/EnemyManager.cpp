@@ -88,6 +88,7 @@ void EnemyManager::update(std::mt19937_64& random_engine) {
         enemy_bullet.update();
     }
 
+
     enemy_bullets.erase(remove_if(enemy_bullets.begin(), enemy_bullets.end(), [](const Bullet& i_bullet)
     {
         return 1 == i_bullet.dead;
