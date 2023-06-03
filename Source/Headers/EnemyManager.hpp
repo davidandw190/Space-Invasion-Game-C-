@@ -44,5 +44,5 @@ public:
 
 };
 
-
 #endif //PP_SPACE_INVASION_ENEMYMANAGER_HPP
+
