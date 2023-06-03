@@ -32,6 +32,8 @@ constexpr unsigned char ENEMY_MOVE_SPEED = 1;
 
 constexpr unsigned char ENEMY_BULLET_SPEED = 2;
 
+constexpr unsigned short ENEMY_SHOOT_CHANCE = 2080;
+
 // a constant for the frame duration in ms
 constexpr std::chrono::microseconds FRAME_DURATION(16667);
 

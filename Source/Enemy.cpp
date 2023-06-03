@@ -52,22 +52,27 @@ void Enemy::update() {
 }
 
 void Enemy::move() {
-    if (0 != this->direction)
-    {
-        if ((1 == direction && x == SCREEN_WIDTH - 2 * BASE_SIZE) || (-1 == direction && x == BASE_SIZE))
-        {
+
+    if (0 != this->direction) {
+        if ((1 == direction && x == SCREEN_WIDTH - 2 * BASE_SIZE) || (-1 == direction && x == BASE_SIZE)) {
+
             //Moving downwards after reaching the edge
             this->direction = 0;
 
-            this->y += ENEMY_MOVE_SPEED;
+            y += ENEMY_MOVE_SPEED;
+        } else
+            //Moving left and right
+            x = std::clamp<short>(x + ENEMY_MOVE_SPEED * direction, BASE_SIZE, SCREEN_WIDTH - 2 * BASE_SIZE);
+    } else {
+        y = std::min<short>(y + ENEMY_MOVE_SPEED, BASE_SIZE * ceil(y / static_cast<float>(BASE_SIZE)));
         }
         else
             //Moving left and right
             this->x = std::clamp<short>(x + ENEMY_MOVE_SPEED * direction, BASE_SIZE, SCREEN_WIDTH - 2 * BASE_SIZE);
     }
-    else
-    {
+    else{
         this->y = std::min<short>(y + ENEMY_MOVE_SPEED, BASE_SIZE * ceil(y / static_cast<float>(BASE_SIZE)));
+
 
         if (this->y == BASE_SIZE * ceil(this->y / static_cast<float>(BASE_SIZE)))
             //Checking which direction the enemy should move in
