@@ -45,8 +45,15 @@ void Enemy::hit() {
 }
 
 void Enemy::update() {
-        if (this->hit_timer == 1)
-            this->hit_points = std::max(0, hit_points - 1);
+        if (this->hit_timer > 0) {
+            if (this->hit_timer == 1) {
+                this->health = std::max(0, health - 1);
+            }
+
+            hit_timer--;
+
+        }
+
 
         this->hit_timer--;
 }
