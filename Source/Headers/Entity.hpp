@@ -23,7 +23,6 @@ protected:
     unsigned short x{};
     unsigned short y{};
 
-    sf::Sprite sprite;
     sf::Texture texture;
 
 public:
@@ -34,9 +33,11 @@ public:
     unsigned short get_y() const;
 
     // these virtual methods will need to be implemented in the child classes
-    virtual void draw(sf::RenderWindow& window) = 0;
     virtual sf::IntRect get_hitbox() const = 0;
 
+    void draw(sf::RenderWindow &window);
+
+    sf::Sprite sprite;
 };
 
 #endif //PP_SPACE_INVASION_ENTITY_HPP

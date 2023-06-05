@@ -90,5 +90,5 @@ sf::IntRect Enemy::get_hitbox() const {
 }
 
 void Enemy::shoot(std::vector<Bullet>& enemy_bullets) {
-    enemy_bullets.push_back(Bullet(0, ENEMY_BULLET_SPEED, this->x, this->y));
+    enemy_bullets.emplace_back(0, ENEMY_BULLET_SPEED, this->x, this->y);
 }

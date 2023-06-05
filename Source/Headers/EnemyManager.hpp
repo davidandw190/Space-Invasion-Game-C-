@@ -44,7 +44,9 @@ public:
     std::vector<Enemy>& get_enemies();
 
 
+    void reset(unsigned short i_level);
 };
 
 #endif //PP_SPACE_INVASION_ENEMYMANAGER_HPP
+
 

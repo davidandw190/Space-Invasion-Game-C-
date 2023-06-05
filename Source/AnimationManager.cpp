@@ -32,7 +32,7 @@ bool AnimationManager::change_curr_frame() {
 }
 
 bool AnimationManager::update() {
-    bool output = 0;
+    bool output = false;
 
     animation_iterator++;
 
@@ -41,7 +41,7 @@ bool AnimationManager::update() {
         curr_frame++;
 
         if (curr_frame == total_frames) {
-            output = 1;
+            output = true;
             curr_frame = 0;
         }
     }

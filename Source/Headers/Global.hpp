@@ -27,8 +27,17 @@ constexpr unsigned char RELOAD_DURATION = 30;
 constexpr unsigned char FAST_RELOAD_DURATION = 6;
 
 // Enemy related stuff
-constexpr unsigned char ENEMY_HIT_TIMER_DURATION = 1;
+constexpr unsigned char ENEMY_HIT_TIMER_DURATION = 2;
+constexpr unsigned char ENEMY_MOVE_PAUSE_MIN = 3;
+constexpr unsigned short ENEMY_SHOOT_CHANCE_INCREASE = 64;
+constexpr unsigned short ENEMY_SHOOT_CHANCE_MIN = 1024;
 constexpr unsigned char ENEMY_MOVE_SPEED = 1;
+
+//"Why not 64?" - you may ask. Well, it's because if we set it to 0, they will still have 1 frame pause. So 63 + 1 = 64.
+constexpr unsigned char ENEMY_MOVE_PAUSE_START = 63;
+constexpr unsigned char ENEMY_MOVE_PAUSE_START_MIN = 47;
+//The more enemies we kill, the faster they become.
+constexpr unsigned char ENEMY_MOVE_PAUSE_DECREASE = 1;
 
 constexpr unsigned char ENEMY_BULLET_SPEED = 2;
 

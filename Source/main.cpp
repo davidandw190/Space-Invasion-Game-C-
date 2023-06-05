@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -68,6 +67,7 @@ int main() {
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
                 player.reset();
+                enemyManager.reset(0);
             }
         }
 
