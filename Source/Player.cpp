@@ -55,8 +55,7 @@ void Player::draw(sf::RenderWindow& window) {
         // I set the position of the player's sprite as a vector since it does not accept actulat ints
         sprite.setPosition(sf::Vector2f(x, y));
 
-        for (const Bullet& bullet : player_bullets)
-        {
+        for (const Bullet& bullet : player_bullets) {
             bullet_sprite.setPosition(bullet.x, bullet.y);
 
             window.draw(bullet_sprite);
@@ -80,41 +79,87 @@ sf::IntRect Player::get_hitbox() const {
 
 void Player::update(std::mt19937_64& random_engine, std::vector<Bullet>& enemy_bullets, std::vector<Enemy>& enemies) {
     if (!dead) {
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+            current_power = 0;
+
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+            current_power = 1;
+
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+            current_power = 2;
+
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
+            current_power = 3;
+        }
+
         // move left
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            this->x = std::max<int>(x - PLAYER_MOVE_SPEED, BASE_SIZE);
+
+            if (current_power == 1) {
+                // we mirror  the controls
+                x = std::min<int>(PLAYER_MOVE_SPEED + x, SCREEN_WIDTH - 2 * BASE_SIZE);
+            } else {
+                x = std::max<int>(x - PLAYER_MOVE_SPEED, BASE_SIZE);
+            }
+
         }
 
         // move right
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-            this->x = std::min<int>(PLAYER_MOVE_SPEED + x, SCREEN_WIDTH - 2 * BASE_SIZE);
+
+            if (current_power == 1) {
+                // we ALSO mirror the controls
+                x = std::max<int>(x - PLAYER_MOVE_SPEED, BASE_SIZE);
+            } else {
+                x = std::min<int>(PLAYER_MOVE_SPEED + x, SCREEN_WIDTH - 2 * BASE_SIZE);
+            }
         }
 
         // player shoot
         if (reload_timer == 0) {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
-                // we will do interesting stuff here when we get to the power-ups
-                reload_timer = RELOAD_DURATION;
+
+            if ((current_power != 1) && (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))) {
+
+                if (current_power == 2) {
+                    reload_timer = FAST_RELOAD_DURATION;
+
+                } else {
+                    reload_timer = RELOAD_DURATION;
+                }
 
                 player_bullets.push_back(Bullet(0, -PLAYER_BULLET_SPEED, x, y));
+
+                if (current_power == 3) {
+
+                    player_bullets.push_back(Bullet(0, -PLAYER_BULLET_SPEED, x - 0.375f * BASE_SIZE, y));
+                    player_bullets.push_back(Bullet(0, -PLAYER_BULLET_SPEED, x + 0.375f * BASE_SIZE, y));
+                }
+
+            } else if ((current_power == 1) && (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) ) {
+
+                reload_timer = RELOAD_DURATION;
+                player_bullets.push_back(Bullet(0, -PLAYER_BULLET_SPEED, x, y));
+
             }
+
 
         } else {
             reload_timer--;
         }
 
         for (Bullet& bullet : enemy_bullets) {
+
             if (this->get_hitbox().intersects(bullet.get_hitbox())) {
                 this->dead = true;
             }
+
 
             bullet.dead = true; // we have to also kill the bullet haha
 
             break;
 
-
         }
-
 
     }
 
@@ -123,10 +168,8 @@ void Player::update(std::mt19937_64& random_engine, std::vector<Bullet>& enemy_b
 
     }
 
-    for (Enemy& enemy : enemies)
-    {
-        for (Bullet& bullet : player_bullets)
-        {
+    for (Enemy& enemy : enemies) {
+        for (Bullet& bullet : player_bullets) {
             if ((!bullet.dead) && (0 < enemy.get_health())
             && enemy.get_hitbox().intersects(bullet.get_hitbox())) {
 

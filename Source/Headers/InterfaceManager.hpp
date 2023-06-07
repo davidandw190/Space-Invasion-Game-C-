@@ -1,0 +1,14 @@
+//
+// Created by 40787 on 6/7/2023.
+//
+#pragma once
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+
+#ifndef PP_SPACE_INVASION_INTERFACEMANAGER_HPP
+#define PP_SPACE_INVASION_INTERFACEMANAGER_HPP
+
+#endif //PP_SPACE_INVASION_INTERFACEMANAGER_HPP
+
+
+void draw_text(short i_x, short i_y, const std::string& i_text, sf::RenderWindow& i_window, const sf::Texture& i_font_texture);
