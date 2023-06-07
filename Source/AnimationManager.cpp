@@ -6,7 +6,6 @@
 #include <SFML/Graphics.hpp>
 
 #include "Headers/AnimationManager.hpp"
-#include "Headers/AnimationManager.hpp"
 
 AnimationManager::AnimationManager(unsigned short animation_speed, unsigned short frame_width, const std::string& texture_location) :
         animation_iterator(0),
@@ -50,7 +49,6 @@ bool AnimationManager::update() {
 }
 
 void AnimationManager::draw(short x, short y, sf::RenderWindow& window, const sf::Color& color) {
-    sprite.setColor(color);
     sprite.setPosition(x, y);
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(curr_frame * frame_width, 0, frame_width, texture.getSize().y));

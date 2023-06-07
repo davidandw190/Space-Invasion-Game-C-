@@ -14,10 +14,11 @@
 Enemy::Enemy(unsigned char type, unsigned short x, unsigned short y)
     :Entity(),
      direction(0 == (y / BASE_SIZE) % 2 ? -1 : 1),
-     health(1 + type),
+     health(1),
      hit_timer(0),
      hit_points(0),
-     enemy_type(type)
+     enemy_type(type),
+     alive(true)
 {
     this->x = x;
     this->y = y;
@@ -42,34 +43,32 @@ unsigned short Enemy::get_enemy_type() const {
 
 void Enemy::hit() {
     this->hit_timer = ENEMY_HIT_TIMER_DURATION;
+    this->alive = false;
 }
 
 void Enemy::update() {
         if (this->hit_timer > 0) {
-            if (this->hit_timer == 1) {
-                this->health = std::max(0, health - 1);
-            }
-
             hit_timer--;
 
         }
 
-
-        this->hit_timer--;
 }
 
 void Enemy::move() {
     if (0 != this->direction) {
-        if ((1 == direction && x == SCREEN_WIDTH - 2 * BASE_SIZE) || (-1 == direction && x == BASE_SIZE)) {
-            //Moving downwards after reaching the edge
-            this->direction = 0;
+        if ((direction == 1 && x == SCREEN_WIDTH - 2 * BASE_SIZE) || (direction == -1 && x == BASE_SIZE)) {
 
+            // moving downwards after reaching the edge
+            this->direction = 0;
             this->y += ENEMY_MOVE_SPEED;
+
         } else {
-            //Moving left and right
+            // moving left and right
             this->x = std::clamp<short>(x + ENEMY_MOVE_SPEED * direction, BASE_SIZE, SCREEN_WIDTH - 2 * BASE_SIZE);
         }
+
     } else {
+        // when moving downwards
         this->y = std::min<short>(y + ENEMY_MOVE_SPEED, BASE_SIZE * ceil(y / static_cast<float>(BASE_SIZE)));
 
         if (this->y == BASE_SIZE * ceil(this->y / static_cast<float>(BASE_SIZE))) {
@@ -90,5 +89,5 @@ sf::IntRect Enemy::get_hitbox() const {
 }
 
 void Enemy::shoot(std::vector<Bullet>& enemy_bullets) {
-    enemy_bullets.emplace_back(0, ENEMY_BULLET_SPEED, this->x, this->y);
+    enemy_bullets.push_back(Bullet(0, ENEMY_BULLET_SPEED, x, y));
 }

@@ -20,10 +20,6 @@ unsigned short Entity::get_y() const {
     return y;
 }
 
-void Entity::draw(sf::RenderWindow& window) {
-    if (0 == dead) {
-        sprite.setPosition(x, y);
-        window.draw(sprite);
-    }
 
-}
+
+

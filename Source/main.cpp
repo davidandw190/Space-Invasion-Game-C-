@@ -21,7 +21,7 @@ int main() {
     sf::Event event;
 
     sf::RenderWindow window(sf::VideoMode(SCREEN_RESIZE * SCREEN_WIDTH, SCREEN_RESIZE * SCREEN_HEIGHT),
-                            "TEST Retro Shooter Game - VERSION 0.2",
+                            "TEST Retro Shooter Game - VERSION 0.5",
                             sf::Style::Close);
     window.setView(sf::View(sf::FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)));
 

@@ -35,7 +35,6 @@ public:
     // these virtual methods will need to be implemented in the child classes
     virtual sf::IntRect get_hitbox() const = 0;
 
-    void draw(sf::RenderWindow &window);
 
     sf::Sprite sprite;
 };

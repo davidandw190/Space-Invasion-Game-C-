@@ -19,6 +19,7 @@ private:
     char direction; //-1 left, +1 right, 0 down
 
     unsigned char health;
+    bool dead;
 
     unsigned char enemy_type;
     unsigned char hit_points;
@@ -36,9 +37,12 @@ public:
     void shoot(std::vector<Bullet>& enemy_bullets);
     void update();
 
+
     sf::IntRect get_hitbox() const override;
 
     unsigned char get_health() const;
+
+    bool alive;
 };
 
 #endif //PP_SPACE_INVASION_ENEMY_H
