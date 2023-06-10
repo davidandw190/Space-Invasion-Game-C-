@@ -58,7 +58,7 @@ int main() {
                 }
             }
 
-            if (1 == enemyManager.reached_player(player.get_y())) {
+            if (enemyManager.reached_player(player.get_y())) {
                 player.die();
             }
 

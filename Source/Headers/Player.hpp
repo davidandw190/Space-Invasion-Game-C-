@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <random>
+#include "AnimationManager.hpp"
 #include "Entity.hpp"
 #include "Bullet.hpp"
 #include "Enemy.hpp"
@@ -21,14 +22,18 @@ class Player: public Entity {
 
 private:
     bool dead{};
+    bool dead_animation_over;
 
     unsigned char current_power;
     unsigned char reload_timer;
+    unsigned short power_timer;
 
     sf::Sprite bullet_sprite;
     sf::Texture bullet_texture;
 
     std::vector<Bullet> player_bullets;
+
+    AnimationManager explosion;
 
 public:
     Player();
@@ -42,4 +47,8 @@ public:
     void draw(sf::RenderWindow &window);
 
     void update(std::mt19937_64 &random_engine, std::vector<Bullet> &enemy_bullets, std::vector<Enemy> &enemies);
+
+    bool get_dead_animation_over() const;
+
+    unsigned short get_power_timer() const;
 };
