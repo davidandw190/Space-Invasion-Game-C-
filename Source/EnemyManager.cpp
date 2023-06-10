@@ -87,7 +87,7 @@ void EnemyManager::reset(unsigned short i_level)
     pause = std::max<short>(ENEMY_MOVE_PAUSE_START_MIN, ENEMY_MOVE_PAUSE_START - ENEMY_MOVE_PAUSE_DECREASE * i_level);
     move_timer = pause;
 
-    shoot_distrib = std::uniform_int_distribution<unsigned short>(0, std::max<short>(ENEMY_SHOOT_CHANCE_MIN, ENEMY_SHOOT_CHANCE - ENEMY_SHOOT_CHANCE_INCREASE * i_level));
+//    shoot_distrib = std::uniform_int_distribution<unsigned short>(0, std::max<short>(ENEMY_SHOOT_CHANCE_MIN, ENEMY_SHOOT_CHANCE - ENEMY_SHOOT_CHANCE_INCREASE * i_level));
 
     for (AnimationManager& enemy_animation : enemy_animations) {
         enemy_animation.reset();
@@ -123,22 +123,22 @@ void EnemyManager::reset(unsigned short i_level)
     }
 }
 
-// Function to check if a bullet is dead
+// to check if a bullet is dead
 bool isBulletDead(const Bullet& i_bullet) {
     return 1 == i_bullet.dead;
 }
 
-// Function to remove dead bullets from the vector
+// to remove dead bullets from the vector
 void removeDeadBullets(std::vector<Bullet>& enemy_bullets) {
     enemy_bullets.erase(std::remove_if(enemy_bullets.begin(), enemy_bullets.end(), isBulletDead), enemy_bullets.end());
 }
 
-// Function to check if an enemy is not alive
+// to check if an enemy is not alive
 bool isEnemyNotAlive(const Enemy& enemy) {
     return !enemy.alive;
 }
 
-// Function to update the enemy manager
+// to update the enemy manager
 void EnemyManager::update(std::mt19937_64& random_engine) {
     std::vector<Enemy>::iterator dead_enemies_start;
 
@@ -152,6 +152,7 @@ void EnemyManager::update(std::mt19937_64& random_engine) {
         for (AnimationManager& enemy_animation : enemy_animations) {
             enemy_animation.change_curr_frame();
         }
+
     } else {
         move_timer--;
     }

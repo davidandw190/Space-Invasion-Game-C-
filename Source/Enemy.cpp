@@ -14,7 +14,7 @@
 Enemy::Enemy(unsigned char type, unsigned short x, unsigned short y)
     :Entity(),
      direction(0 == (y / BASE_SIZE) % 2 ? -1 : 1),
-     health(1),
+     health(1 + type),
      hit_timer(0),
      hit_points(0),
      enemy_type(type),
@@ -73,7 +73,7 @@ void Enemy::move() {
 
         if (this->y == BASE_SIZE * ceil(this->y / static_cast<float>(BASE_SIZE))) {
 
-            //Checking which direction the enemy should move in
+            // to check in which direction the enemy should move in
             this->direction = (this->y / BASE_SIZE) % 2 == 0 ? -1 : 1;
         }
 
@@ -89,5 +89,20 @@ sf::IntRect Enemy::get_hitbox() const {
 }
 
 void Enemy::shoot(std::vector<Bullet>& enemy_bullets) {
-    enemy_bullets.push_back(Bullet(0, ENEMY_BULLET_SPEED, x, y));
+    switch (enemy_type) {
+        case 0: {
+            enemy_bullets.push_back(Bullet(0, ENEMY_BULLET_SPEED, x, y));
+
+            break;
+        } case 1: {
+            enemy_bullets.push_back(Bullet(0.125f * ENEMY_BULLET_SPEED, ENEMY_BULLET_SPEED, x, y));
+            enemy_bullets.push_back(Bullet(-0.125f * ENEMY_BULLET_SPEED, ENEMY_BULLET_SPEED, x, y));
+
+            break;
+        } case 2: {
+            enemy_bullets.push_back(Bullet(0, ENEMY_BULLET_SPEED, x, y));
+            enemy_bullets.push_back(Bullet(0.25f * ENEMY_BULLET_SPEED, ENEMY_BULLET_SPEED, x, y));
+            enemy_bullets.push_back(Bullet(-0.25f * ENEMY_BULLET_SPEED, ENEMY_BULLET_SPEED, x, y));
+        }
+    }
 }

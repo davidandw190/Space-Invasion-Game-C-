@@ -33,7 +33,7 @@ void Bullet::update() {
         previous_x[previous_x.size() - 1] = x;
         previous_y[previous_y.size() - 1] = y;
 
-        // rounds the bullets from float to short bcz computers are not great at floats
+        // for accuracy, it rounds the bullets from float to short bcz computers are not great at floats
         x = std::round(real_x);
         y = std::round(real_y);
 

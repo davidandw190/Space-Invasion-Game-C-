@@ -32,6 +32,7 @@ public:
     unsigned char get_hit_timer() const; //Enemy changes color for a bit as a reaction to being hit
     unsigned short get_enemy_type() const;
 
+
     void move();
     void hit();
     void shoot(std::vector<Bullet>& enemy_bullets);
@@ -43,6 +44,7 @@ public:
     unsigned char get_health() const;
 
     bool alive;
+
 };
 
 #endif //PP_SPACE_INVASION_ENEMY_H
