@@ -38,11 +38,12 @@ public:
     bool reached_player(unsigned short i_player_y) const;
 
     void draw(sf::RenderWindow& window);
+
     void update(std::mt19937_64& random_engine);
 
     std::vector<Bullet>& get_enemy_bullets();
-    std::vector<Enemy>& get_enemies();
 
+    std::vector<Enemy>& get_enemies();
 
     void reset(unsigned short level);
 

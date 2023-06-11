@@ -26,7 +26,7 @@ EnemyManager::EnemyManager(): shoot_distrib(0, ENEMY_SHOOT_CHANCE) {
     for (unsigned char a = 0; a < 3; a++) {
         enemy_animations.push_back(AnimationManager(1 + pause, BASE_SIZE, R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Enemy-)" + std::to_string(static_cast<unsigned short>(a)) + ".png"));
     }
-//    enemy_animations.emplace_back(1 + pause, BASE_SIZE, R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Enemy1.png)");
+//    enemy_animations.emplace_back(1 + pause, BASE_SIZE, R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Enemy-0.png)");
 }
 
 bool EnemyManager::reached_player(unsigned short player_y) const {
@@ -61,18 +61,37 @@ void EnemyManager::draw(sf::RenderWindow& window) {
     }
 
     for (const Enemy& enemy : enemies) {
+
+
         if (enemy.alive) {
             sf::Color enemy_color = sf::Color(255, 255, 255);
+
+            if (0 == enemy.get_hit_timer())
+            {
+                //Otherwise, we're gonna color it.
+                switch (enemy.get_enemy_type())
+                {
+                    case 0:
+                    {
+                        enemy_color = sf::Color(0, 255, 255);
+
+                        break;
+                    }
+                    case 1:
+                    {
+                        enemy_color = sf::Color(255, 0, 255);
+
+                        break;
+                    }
+                    case 2:
+                    {
+                        enemy_color = sf::Color(0, 255, 0);
+                    }
+                }
+            }
             enemy_animations[enemy.get_enemy_type()].draw(enemy.get_x(), enemy.get_y(), window, enemy_color);
         }
     }
-
-//    for (Enemy& enemy : enemies) {
-//        // when the enemy gets hit, it's gonna appear white.
-//        sf::Color enemy_color = sf::Color(255, 255, 255);
-//        enemy_animations[enemy.get_enemy_type()].draw(enemy.get_x(), enemy.get_y(), window, enemy_color);
-//    }
-
 
 }
 
@@ -82,12 +101,12 @@ void EnemyManager::reset(unsigned short i_level)
     unsigned char enemy_x = 0;
     unsigned char enemy_y = 0;
 
-    std::string level_sketch = "111111\n11111";
+    std::string level_sketch = "110011001100\n2200220022\n00001111\n11112222";
 
     pause = std::max<short>(ENEMY_MOVE_PAUSE_START_MIN, ENEMY_MOVE_PAUSE_START - ENEMY_MOVE_PAUSE_DECREASE * i_level);
     move_timer = pause;
 
-//    shoot_distrib = std::uniform_int_distribution<unsigned short>(0, std::max<short>(ENEMY_SHOOT_CHANCE_MIN, ENEMY_SHOOT_CHANCE - ENEMY_SHOOT_CHANCE_INCREASE * i_level));
+    shoot_distrib = std::uniform_int_distribution<unsigned short>(0, std::max<short>(ENEMY_SHOOT_CHANCE_MIN, ENEMY_SHOOT_CHANCE - ENEMY_SHOOT_CHANCE_INCREASE * i_level));
 
     for (AnimationManager& enemy_animation : enemy_animations) {
         enemy_animation.reset();
@@ -155,6 +174,16 @@ void EnemyManager::update(std::mt19937_64& random_engine) {
 
     } else {
         move_timer--;
+    }
+
+    for (Enemy& enemy : enemies)
+    {
+        enemy.update();
+
+        if (0 == shoot_distrib(random_engine))
+        {
+            enemy.shoot(enemy_bullets);
+        }
     }
 
     dead_enemies_start = std::remove_if(enemies.begin(), enemies.end(), isEnemyNotAlive);

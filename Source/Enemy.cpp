@@ -48,6 +48,11 @@ void Enemy::hit() {
 
 void Enemy::update() {
         if (this->hit_timer > 0) {
+
+            if (hit_timer == 1) {
+                health = std::max(0, health - 1);
+            }
+
             hit_timer--;
 
         }

@@ -23,6 +23,7 @@ class Player: public Entity {
 private:
     bool dead{};
     bool dead_animation_over;
+    bool shield_animation_over;
 
     unsigned char current_power;
     unsigned char reload_timer;
@@ -42,7 +43,6 @@ public:
     void die();
 
     sf::IntRect get_hitbox() const override;  // will be used for collision detection
-
 
     void draw(sf::RenderWindow &window);
 

@@ -13,7 +13,8 @@
 #include "Headers/Enemy.hpp"
 
 
-Player::Player() : Entity(), explosion(EXPLOSION_ANIMATION_SPEED, BASE_SIZE, "Resources/Images/Explosion.png") {
+Player::Player() : Entity(), explosion(EXPLOSION_ANIMATION_SPEED, BASE_SIZE,
+                                       R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Explosion.png)") {
     reset();    // for when we transition to a new level etc. , because we will call again the constructor
 
     current_power = 0;
@@ -31,12 +32,15 @@ void Player::reset() {
 
     this->current_power = 0;
     this->reload_timer = 0;
+    this->dead_animation_over = false;
 
     this->dead = false;
     this->x = 0.5f * (SCREEN_WIDTH - BASE_SIZE);  // x and y position the player
     this->y = SCREEN_HEIGHT - 2 * BASE_SIZE;
 
     this->player_bullets.clear();
+
+    this->explosion.reset();
 
 }
 
@@ -62,9 +66,18 @@ void Player::draw(sf::RenderWindow& window) {
 
         window.draw(sprite);
 
+        if (!shield_animation_over) {
+            // the sheild beign destroyed.. we'll show a blue explosion.
+            explosion.draw(x, y, window, sf::Color(0, 109, 255));
+        }
 
+
+    } else if (!dead_animation_over) {
+
+        explosion.draw(x, y, window, sf::Color(255, 36, 0));
     }
 }
+
 
 sf::IntRect Player::get_hitbox() const {
     return sf::IntRect(
@@ -78,6 +91,8 @@ sf::IntRect Player::get_hitbox() const {
 
 void Player::update(std::mt19937_64& random_engine, std::vector<Bullet>& enemy_bullets, std::vector<Enemy>& enemies) {
     if (!dead) {
+
+        unsigned char powerup_type;
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
             current_power = 0;
@@ -151,15 +166,45 @@ void Player::update(std::mt19937_64& random_engine, std::vector<Bullet>& enemy_b
         for (Bullet& bullet : enemy_bullets) {
 
             if (this->get_hitbox().intersects(bullet.get_hitbox())) {
-                this->dead = true;
+
+
+
+                if (current_power == 4) {
+                    current_power = 0;
+                    shield_animation_over = false;
+
+                } else {
+                    dead = true;
+                }
+
+                bullet.dead = true; // we have to also kill the bullet haha
+
+                break;
+
+
             }
 
+        }
 
-            bullet.dead = true; // we have to also kill the bullet haha
+        powerup_type = 2;
 
-            break;
+        if (powerup_type > 0) {
+            current_power = powerup_type;
+
+            power_timer = POWERUP_DURATION;
 
         }
+        if (powerup_type == 0){
+            current_power = 0;
+
+        } else {
+            power_timer--;
+        }
+
+        if (!shield_animation_over) {
+            shield_animation_over = explosion.update();
+        }
+
 
     }
 
