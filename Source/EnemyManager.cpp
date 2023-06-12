@@ -62,32 +62,17 @@ void EnemyManager::draw(sf::RenderWindow& window) {
 
     for (const Enemy& enemy : enemies) {
 
-
         if (enemy.alive) {
-            sf::Color enemy_color = sf::Color(255, 255, 255);
+//            sf::Color enemy_color = sf::Color(123, 123, 255);
+//
+//            if (enemy.get_hit_timer()) {
+//
+//                enemy_color = sf::Color(255, 255, 255);
+//            }
+            sf::Color enemy_color = sf::Color(123, 123, 255);
 
-            if (0 == enemy.get_hit_timer())
-            {
-                //Otherwise, we're gonna color it.
-                switch (enemy.get_enemy_type())
-                {
-                    case 0:
-                    {
-                        enemy_color = sf::Color(0, 255, 255);
-
-                        break;
-                    }
-                    case 1:
-                    {
-                        enemy_color = sf::Color(255, 0, 255);
-
-                        break;
-                    }
-                    case 2:
-                    {
-                        enemy_color = sf::Color(0, 255, 0);
-                    }
-                }
+            if (enemy.get_hit_timer()) {
+                enemy_color = sf::Color(255, 255, 255);
             }
             enemy_animations[enemy.get_enemy_type()].draw(enemy.get_x(), enemy.get_y(), window, enemy_color);
         }
@@ -101,7 +86,7 @@ void EnemyManager::reset(unsigned short i_level)
     unsigned char enemy_x = 0;
     unsigned char enemy_y = 0;
 
-    std::string level_sketch = "110011001100\n2200220022\n00001111\n11112222";
+    std::string level_sketch = "1 1 0 0 1 1 0 0 1 1 0 0\n2 2 0 0 2 2 0 0 2 2\n0 0 0 0 1 1 1 1\n1 1 1 1 2 2 2 2";
 
     pause = std::max<short>(ENEMY_MOVE_PAUSE_START_MIN, ENEMY_MOVE_PAUSE_START - ENEMY_MOVE_PAUSE_DECREASE * i_level);
     move_timer = pause;
@@ -117,11 +102,12 @@ void EnemyManager::reset(unsigned short i_level)
     enemies.clear();
 
 
-    //Here we're converting each character into an enemy.
+    // we're converting each character into an enemy.
     for (char sketch_character : level_sketch) {
         enemy_x++;
 
         switch (sketch_character) {
+
             case '\n': {
                 enemy_x = 0;
                 enemy_y++;
@@ -143,8 +129,8 @@ void EnemyManager::reset(unsigned short i_level)
 }
 
 // to check if a bullet is dead
-bool isBulletDead(const Bullet& i_bullet) {
-    return 1 == i_bullet.dead;
+bool isBulletDead(const Bullet& bullet) {
+    return bullet.dead;
 }
 
 // to remove dead bullets from the vector
@@ -161,7 +147,7 @@ bool isEnemyNotAlive(const Enemy& enemy) {
 void EnemyManager::update(std::mt19937_64& random_engine) {
     std::vector<Enemy>::iterator dead_enemies_start;
 
-    if (0 == move_timer) {
+    if (move_timer == 0) {
         move_timer = pause;
 
         for (Enemy& enemy : enemies) {
@@ -176,12 +162,10 @@ void EnemyManager::update(std::mt19937_64& random_engine) {
         move_timer--;
     }
 
-    for (Enemy& enemy : enemies)
-    {
+    for (Enemy& enemy : enemies) {
         enemy.update();
 
-        if (0 == shoot_distrib(random_engine))
-        {
+        if (shoot_distrib(random_engine) == 0) {
             enemy.shoot(enemy_bullets);
         }
     }
@@ -201,49 +185,6 @@ void EnemyManager::update(std::mt19937_64& random_engine) {
 }
 
 
-//void EnemyManager::update(std::mt19937_64& random_engine) {
-//    std::vector<Enemy>::iterator dead_enemies_start;
-//
-//    if (0 == move_timer) {
-//        move_timer = pause;
-//
-//        for (Enemy& enemy : enemies) {
-//            enemy.move();
-//
-//        }
-//
-//        for (AnimationManager& enemy_animation : enemy_animations) {
-//
-//            // the enemies change their frame after each move.
-//            enemy_animation.change_curr_frame();
-//        }
-//    } else {
-//        move_timer--;
-//    }
-//
-//
-//    dead_enemies_start = std::remove_if(enemies.begin(), enemies.end(), [](const Enemy& enemy) {
-//        return !enemy.alive;
-//    });
-//
-//    enemies.erase(dead_enemies_start, enemies.end());
-//
-//    // the more enemies we kill, the faster they become.
-//    pause = std::max<int>(ENEMY_MOVE_PAUSE_MIN, pause - ENEMY_MOVE_PAUSE_DECREASE * (enemies.end() - dead_enemies_start));
-//
-//    enemies.erase(dead_enemies_start, enemies.end());
-//
-//    for (Bullet& enemy_bullet : enemy_bullets) {
-//        enemy_bullet.update();
-//    }
-//
-//    enemy_bullets.erase(remove_if(enemy_bullets.begin(), enemy_bullets.end(), [](const Bullet& bullet) {
-//        return 1 == bullet.dead;
-//    }), enemy_bullets.end());
-//
-//
-//}
-
 std::vector<Bullet>& EnemyManager::get_enemy_bullets() {
     return enemy_bullets;
 }
@@ -251,11 +192,3 @@ std::vector<Bullet>& EnemyManager::get_enemy_bullets() {
 std::vector<Enemy>& EnemyManager::get_enemies() {
     return enemies;
 }
-//
-//bool isBulletDead(const Bullet& bullet) {
-//    return 1 == bullet.dead;
-//}
-//
-//void removeDeadBullets(std::vector<Bullet>& enemy_bullets) {
-//    enemy_bullets.erase(std::remove_if(enemy_bullets.begin(), enemy_bullets.end(), isBulletDead), enemy_bullets.end());
-//}

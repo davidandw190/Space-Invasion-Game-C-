@@ -16,6 +16,7 @@ Enemy::Enemy(unsigned char type, unsigned short x, unsigned short y)
      direction(0 == (y / BASE_SIZE) % 2 ? -1 : 1),
      health(1 + type),
      hit_timer(0),
+     color_timer(0),
      hit_points(0),
      enemy_type(type),
      alive(true)
@@ -47,15 +48,15 @@ void Enemy::hit() {
 }
 
 void Enemy::update() {
-        if (this->hit_timer > 0) {
+    if (this->hit_timer > 0) {
 
-            if (hit_timer == 1) {
-                health = std::max(0, health - 1);
-            }
-
-            hit_timer--;
-
+        if (hit_timer == 1) {
+            health = std::max(0, health - 1);
         }
+
+        hit_timer--;
+
+    }
 
 }
 

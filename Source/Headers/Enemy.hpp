@@ -45,6 +45,7 @@ public:
 
     bool alive;
 
+    unsigned char color_timer;
 };
 
 #endif //PP_SPACE_INVASION_ENEMY_H
