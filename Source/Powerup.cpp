@@ -4,7 +4,6 @@
 
 
 #include <SFML/Graphics/Rect.hpp>
-#include "Headers/Powerup.hpp"
 #include "Headers/Global.hpp"
 
 
@@ -27,6 +26,9 @@ struct Powerup {
             powerup_type(powerup_type) { }
 
     sf::IntRect get_hitbox() const {
-        return sf::IntRect(x + 0.25f * BASE_SIZE, y + 0.25f * BASE_SIZE, 0.5f * BASE_SIZE, 0.5f * BASE_SIZE);
+        return sf::IntRect(x + 0.25f * BASE_SIZE,
+                           y + 0.25f * BASE_SIZE,
+                           0.5f * BASE_SIZE,
+                           0.5f * BASE_SIZE);
     }
 };
