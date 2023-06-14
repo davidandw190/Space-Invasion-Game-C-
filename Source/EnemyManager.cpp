@@ -69,8 +69,9 @@ void EnemyManager::draw(sf::RenderWindow& window) {
 //
 //                enemy_color = sf::Color(255, 255, 255);
 //            }
-            sf::Color enemy_color = sf::Color(123, 123, 255);
+//            sf::Color enemy_color = sf::Color(123, 123, 255);
 
+            sf::Color enemy_color = sf::Color(255, 255, 255);
             if (enemy.get_hit_timer()) {
                 enemy_color = sf::Color(255, 255, 255);
             }
@@ -86,7 +87,7 @@ void EnemyManager::reset(unsigned short i_level)
     unsigned char enemy_x = 0;
     unsigned char enemy_y = 0;
 
-    std::string level_sketch = "1 1 0 0 1 1 0 0 1 1 0 0\n2 2 0 0 2 2 0 0 2 2\n0 0 0 0 1 1 1 1\n1 1 1 1 2 2 2 2";
+    std::string level_sketch = "1 1 3 3 1 1 0 3 1 1 0 0\n2 2 3 3 2 2 3 3 2 2\n0 0 0 0 1 1 1 1\n1 3 1 1 2 3 2 2";
 
     pause = std::max<short>(ENEMY_MOVE_PAUSE_START_MIN, ENEMY_MOVE_PAUSE_START - ENEMY_MOVE_PAUSE_DECREASE * i_level);
     move_timer = pause;

@@ -82,7 +82,7 @@ int main() {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
                 player.reset();
                 enemyManager.reset(0);
-                bonus_enemy.reset(1, random_engine);
+                bonus_enemy.reset(true, random_engine);
             }
         }
 
@@ -92,6 +92,7 @@ int main() {
         if (!player.get_dead()) {
             player.draw(window);
             enemyManager.draw(window);
+            bonus_enemy.draw(window);
         }
 
         window.display();

@@ -53,10 +53,10 @@ BonusEnemy::BonusEnemy(std::mt19937_64& random_engine) :
         animation(BONUS_ANIMATION_SPEED, 2 * BASE_SIZE, R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\BonusEnemy.png)"),
         explosion(EXPLOSION_ANIMATION_SPEED, 2 * BASE_SIZE, R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\ExplosionBig.png)")
 {
-    reset(1, random_engine);
+    reset(true, random_engine);
 
     for (unsigned char a = 0; a < POWERUP_TYPES; a++) {
-        powerup_animations.push_back(AnimationManager(POWERUP_ANIMATION_SPEED, BASE_SIZE, R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\BonusEnemy.png)"));
+        powerup_animations.push_back(AnimationManager(POWERUP_ANIMATION_SPEED, BASE_SIZE, R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Powerup.png)"));
     }
 }
 
