@@ -118,7 +118,7 @@ void BonusEnemy::reset(bool dead, std::mt19937_64& random_engine) {
     explosion.reset();
 }
 
-void BonusEnemy::update(std::mt19937_64& i_random_engine) {
+void BonusEnemy::update(std::mt19937_64& random_engine) {
     if (!dead) {
         x -= BONUS_MOVE_SPEED;
 
@@ -134,7 +134,7 @@ void BonusEnemy::update(std::mt19937_64& i_random_engine) {
         }
 
         if (timer == 0) {
-            reset(0, i_random_engine);
+            reset(0, random_engine);
         } else {
             timer--;
         }

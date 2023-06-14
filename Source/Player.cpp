@@ -34,6 +34,8 @@ void Player::reset() {
     this->current_power = 0;
     this->reload_timer = 0;
     this->dead_animation_over = false;
+    this->shield_animation_over = true;
+    this->power_timer = 0;
 
     this->dead = false;
     this->x = 0.5f * (SCREEN_WIDTH - BASE_SIZE);  // x and y position the player
@@ -172,7 +174,6 @@ void Player::update(std::mt19937_64& random_engine,
             if (this->get_hitbox().intersects(bullet.get_hitbox())) {
 
 
-
                 if (current_power == 4) {
                     current_power = 0;
                     shield_animation_over = false;
@@ -198,7 +199,8 @@ void Player::update(std::mt19937_64& random_engine,
             power_timer = POWERUP_DURATION;
 
         }
-        if (powerup_type == 0){
+
+        if (power_timer == 0){
             current_power = 0;
 
         } else {
@@ -210,15 +212,15 @@ void Player::update(std::mt19937_64& random_engine,
         }
 
 
+    } else if (!dead_animation_over) {
+        dead_animation_over = explosion.update();
     }
 
     for (Bullet& bullet : player_bullets) {
         bullet.update();
 
-        if (!bullet.dead)
-        {
-            if (bonus_enemy.check_bullet_collision(random_engine, bullet.get_hitbox()))
-            {
+        if (!bullet.dead) {
+            if (bonus_enemy.check_bullet_collision(random_engine, bullet.get_hitbox())) {
                 bullet.dead = true;
             }
         }
