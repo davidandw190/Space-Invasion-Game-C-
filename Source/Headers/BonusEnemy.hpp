@@ -11,11 +11,13 @@
 
 class BonusEnemy: public Entity {
 
-private:
+protected:
     bool dead;
     bool dead_animation_over;
 
     short explosion_x;
+
+    unsigned short timer;
 
     std::uniform_int_distribution<unsigned short> powerup_distrib;
 
@@ -28,7 +30,7 @@ private:
     AnimationManager animation;
     AnimationManager explosion;
 public:
-    BonusEnemy(std::mt19937_64& random_engine);
+    explicit BonusEnemy(std::mt19937_64& random_engine);
 
     bool check_bullet_collision(std::mt19937_64& random_engine, const sf::IntRect& bullet_hitbox);
 
@@ -40,6 +42,7 @@ public:
 
     sf::IntRect get_hitbox() const;
 
+    const unsigned char y;
 };
 
 

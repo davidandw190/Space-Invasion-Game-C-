@@ -228,8 +228,8 @@ void Player::update(std::mt19937_64& random_engine, std::vector<Bullet>& enemy_b
     }
 
     player_bullets.erase(
-            remove_if(player_bullets.begin(),player_bullets.end(), [](const Bullet& i_bullet) {
-        return 1 == i_bullet.dead;
+            remove_if(player_bullets.begin(),player_bullets.end(), [](const Bullet& bullet) {
+        return bullet.dead;
     }), player_bullets.end());
 
 }
