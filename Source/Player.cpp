@@ -11,6 +11,7 @@
 #include "Headers/Global.hpp"
 #include "Headers/Bullet.hpp"
 #include "Headers/Enemy.hpp"
+#include "Headers/BonusEnemy.hpp"
 
 
 Player::Player() : Entity(), explosion(EXPLOSION_ANIMATION_SPEED, BASE_SIZE,
@@ -89,7 +90,10 @@ sf::IntRect Player::get_hitbox() const {
 
 }
 
-void Player::update(std::mt19937_64& random_engine, std::vector<Bullet>& enemy_bullets, std::vector<Enemy>& enemies) {
+void Player::update(std::mt19937_64& random_engine,
+                    std::vector<Bullet>& enemy_bullets,
+                    std::vector<Enemy>& enemies,
+                    BonusEnemy& bonus_enemy) {
     if (!dead) {
 
         unsigned char powerup_type;
@@ -186,7 +190,7 @@ void Player::update(std::mt19937_64& random_engine, std::vector<Bullet>& enemy_b
 
         }
 
-        powerup_type = 2;
+        powerup_type = bonus_enemy.check_powerup_collision(get_hitbox());
 
         if (powerup_type > 0) {
             current_power = powerup_type;
@@ -210,6 +214,14 @@ void Player::update(std::mt19937_64& random_engine, std::vector<Bullet>& enemy_b
 
     for (Bullet& bullet : player_bullets) {
         bullet.update();
+
+        if (!bullet.dead)
+        {
+            if (bonus_enemy.check_bullet_collision(random_engine, bullet.get_hitbox()))
+            {
+                bullet.dead = true;
+            }
+        }
 
     }
 
@@ -240,4 +252,8 @@ bool Player::get_dead_animation_over() const {
 
 unsigned short Player::get_power_timer() const {
     return power_timer;
+}
+
+unsigned char Player::get_current_power() const {
+    return current_power;
 }

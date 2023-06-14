@@ -7,6 +7,7 @@
 #include "Headers/Global.hpp"
 #include "Headers/Player.hpp"
 #include "Headers/EnemyManager.hpp"
+#include "Headers/BonusEnemy.hpp"
 
 int main() {
     std::chrono::microseconds lag(0);   // to keep track of time between frames
@@ -16,6 +17,12 @@ int main() {
     std::mt19937_64 random_engine(
             std::chrono::system_clock::now().time_since_epoch().count()
     );
+
+    bool game_over = false;
+    bool next_wave = false;
+
+    unsigned short curr_wave = 0;
+    unsigned short next_wave_timer = NEXT_LEVEL_TRANSITION;
 
     //  to handle user input
     sf::Event event;
@@ -35,6 +42,8 @@ int main() {
     Player player;
 
     EnemyManager enemyManager;
+
+    BonusEnemy bonus_enemy(random_engine);
 
     prev_time = std::chrono::steady_clock::now();   // the initial value of prev_time
 
@@ -58,16 +67,22 @@ int main() {
                 }
             }
 
+            if (player.get_dead_animation_over()) {
+                game_over = true;
+            }
+
             if (enemyManager.reached_player(player.get_y())) {
                 player.die();
             }
 
-            player.update(random_engine, enemyManager.get_enemy_bullets(), enemyManager.get_enemies());
+            player.update(random_engine, enemyManager.get_enemy_bullets(), enemyManager.get_enemies(), bonus_enemy);
             enemyManager.update(random_engine);
+            bonus_enemy.update(random_engine);
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
                 player.reset();
                 enemyManager.reset(0);
+                bonus_enemy.reset(1, random_engine);
             }
         }
 

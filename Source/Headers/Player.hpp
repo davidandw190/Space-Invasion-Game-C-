@@ -10,6 +10,7 @@
 #include "Entity.hpp"
 #include "Bullet.hpp"
 #include "Enemy.hpp"
+#include "BonusEnemy.hpp"
 
 #ifndef PP_SPACE_INVASION_PLAYER_HPP
 #define PP_SPACE_INVASION_PLAYER_HPP
@@ -46,9 +47,14 @@ public:
 
     void draw(sf::RenderWindow &window);
 
-    void update(std::mt19937_64 &random_engine, std::vector<Bullet> &enemy_bullets, std::vector<Enemy> &enemies);
+    void update(std::mt19937_64 &random_engine, std::vector<Bullet> &enemy_bullets, std::vector<Enemy> &enemies,
+                BonusEnemy& enemy);
 
     bool get_dead_animation_over() const;
 
+    unsigned char get_current_power() const;
+
     unsigned short get_power_timer() const;
+
+
 };
