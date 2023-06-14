@@ -75,11 +75,36 @@ int main() {
                 player.die();
             }
 
-            player.update(random_engine, enemyManager.get_enemy_bullets(), enemyManager.get_enemies(), bonus_enemy);
-            enemyManager.update(random_engine);
-            bonus_enemy.update(random_engine);
+            if (!game_over) {
+                if (enemyManager.get_enemies().empty()) {
+                    if (0 == next_wave_timer)
+                    {
+                        next_wave = false;
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+                        curr_wave++;
+                        next_wave_timer = NEXT_LEVEL_TRANSITION;
+
+                        player.reset();
+
+                        enemyManager.reset(curr_wave);
+
+                        bonus_enemy.reset(true, random_engine);
+                    } else {
+                        next_wave = true;
+
+                        next_wave_timer--;
+                    }
+                } else {
+                    player.update(random_engine, enemyManager.get_enemy_bullets(), enemyManager.get_enemies(), bonus_enemy);
+                    enemyManager.update(random_engine);
+                    bonus_enemy.update(random_engine);
+                }
+
+
+            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+
+                game_over = false;
+                curr_wave = 0;
                 player.reset();
                 enemyManager.reset(0);
                 bonus_enemy.reset(true, random_engine);
