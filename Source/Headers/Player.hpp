@@ -56,5 +56,4 @@ public:
 
     unsigned short get_power_timer() const;
 
-
 };

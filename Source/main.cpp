@@ -40,12 +40,12 @@ int main() {
     background_sprite.setTexture(background_texture);
 
     Player player;
-
     EnemyManager enemyManager;
-
     BonusEnemy bonus_enemy(random_engine);
 
     prev_time = std::chrono::steady_clock::now();   // the initial value of prev_time
+
+
 
     while (window.isOpen()) {
 
@@ -55,6 +55,7 @@ int main() {
 
         lag += delta_time;
         prev_time += delta_time;
+
 
         while (FRAME_DURATION <= lag) {
             lag -= FRAME_DURATION;
@@ -75,11 +76,35 @@ int main() {
                 player.die();
             }
 
-            player.update(random_engine, enemyManager.get_enemy_bullets(), enemyManager.get_enemies(), bonus_enemy);
-            enemyManager.update(random_engine);
-            bonus_enemy.update(random_engine);
+            if (!game_over) {
+                if (enemyManager.get_enemies().empty()) {
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+                    if (next_wave_timer = 0) {
+                        next_wave = false;
+                        curr_wave++;
+                        next_wave_timer = NEXT_LEVEL_TRANSITION;
+
+                        player.reset();
+
+                        enemyManager.reset(curr_wave);
+
+                        bonus_enemy.reset(1, random_engine);
+                    } else {
+                        next_wave = true;
+
+                        next_wave_timer--;
+                    }
+                } else {
+                    player.update(random_engine, enemyManager.get_enemy_bullets(), enemyManager.get_enemies(), bonus_enemy);
+                    enemyManager.update(random_engine);
+                    bonus_enemy.update(random_engine);
+                }
+
+            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+                game_over = false;
+
+                curr_wave = 0;
+
                 player.reset();
                 enemyManager.reset(0);
                 bonus_enemy.reset(1, random_engine);
@@ -92,6 +117,7 @@ int main() {
         if (!player.get_dead()) {
             player.draw(window);
             enemyManager.draw(window);
+            bonus_enemy.draw(window);
         }
 
         window.display();
