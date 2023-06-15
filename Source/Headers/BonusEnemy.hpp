@@ -34,7 +34,7 @@ public:
 
     bool check_bullet_collision(std::mt19937_64& random_engine, const sf::IntRect& bullet_hitbox);
 
-    unsigned char check_powerup_collision(const sf::IntRect& player_hitbox);
+    bool check_powerup_collision(const sf::IntRect& player_hitbox);
 
     void draw(sf::RenderWindow& window);
     void reset(bool dead, std::mt19937_64& random_engine);

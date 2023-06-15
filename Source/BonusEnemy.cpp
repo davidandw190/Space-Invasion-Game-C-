@@ -40,17 +40,49 @@ bool BonusEnemy::check_bullet_collision(std::mt19937_64& i_random_engine, const 
     return false;
 }
 
-unsigned char BonusEnemy::check_powerup_collision(const sf::IntRect& player_hitbox) {
+//unsigned char BonusEnemy::check_powerup_collision(const sf::IntRect& player_hitbox) {
+//
+//    for (Powerup& powerup : powerups) {
+//        if (!powerup.dead && powerup.get_hitbox().intersects(player_hitbox)) {
+//            powerup.dead = true;
+//
+//            // we add one because we have that offset
+//            return 1 + powerup.powerup_type;
+//        }
+//    }
+//    return 0;
+//}
+
+
+
+//unsigned char BonusEnemy::check_powerup_collision(const sf::IntRect& player_hitbox) {
+//    std::random_device rd;
+//    std::mt19937 gen(rd());
+//    std::uniform_int_distribution<> dis(1, 3);
+//
+//    for (Powerup& powerup : powerups) {
+//        if (!powerup.dead && powerup.get_hitbox().intersects(player_hitbox)) {
+//            powerup.dead = true;
+//            // return dis(gen);  // Return a random integer between 1 and 3 (inclusive)
+//
+//            return 2;
+//        }
+//    }
+//    return 1;
+//}
+
+bool BonusEnemy::check_powerup_collision(const sf::IntRect& player_hitbox) {
 
     for (Powerup& powerup : powerups) {
         if (!powerup.dead && powerup.get_hitbox().intersects(player_hitbox)) {
             powerup.dead = true;
+            // return dis(gen);  // Return a random integer between 1 and 3 (inclusive)
 
-            // we add one because we have that offset
-            return 1 + powerup.powerup_type;
+            return true;
         }
     }
-    return 0;
+
+    return false;
 }
 
 void BonusEnemy::draw(sf::RenderWindow& window) {
@@ -68,7 +100,7 @@ void BonusEnemy::draw(sf::RenderWindow& window) {
 }
 
 void BonusEnemy::reset(bool dead, std::mt19937_64& random_engine) {
-    dead = dead;
+    this->dead = dead;
     dead_animation_over = false;
 
     explosion_x = SCREEN_WIDTH;

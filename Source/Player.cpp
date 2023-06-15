@@ -53,6 +53,10 @@ void Player::update(std::mt19937_64& random_engine,
                     BonusEnemy& bonus_enemy) {
     if (!dead) {
 
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(1, 3);
+
         unsigned char powerup_type;
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
@@ -66,6 +70,8 @@ void Player::update(std::mt19937_64& random_engine,
 
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
             current_power = 3;
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
+            current_power = 4;
         }
 
         // move left
@@ -118,7 +124,6 @@ void Player::update(std::mt19937_64& random_engine,
 
             }
 
-
         } else {
 
             reload_timer--;
@@ -127,7 +132,6 @@ void Player::update(std::mt19937_64& random_engine,
         for (Bullet& bullet : enemy_bullets) {
 
             if (this->get_hitbox().intersects(bullet.get_hitbox())) {
-
 
                 if (current_power == 4) {
                     current_power = 0;
@@ -146,12 +150,16 @@ void Player::update(std::mt19937_64& random_engine,
 
         }
 
-        powerup_type = bonus_enemy.check_powerup_collision(get_hitbox());
+        if (bonus_enemy.check_powerup_collision(get_hitbox())) {
+
+
+            powerup_type = dis(gen);
+        }
 
         if (powerup_type > 0) {
             current_power = powerup_type;
 
-            power_timer = POWERUP_DURATION;
+            power_timer = POWERUP_DURATION + 1000;
 
             if (power_timer == 0){
                 current_power = 0;
