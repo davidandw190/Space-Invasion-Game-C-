@@ -130,19 +130,14 @@ int main() {
             enemyManager.draw(window);
             bonus_enemy.draw(window);
 
-            draw_text(0.25f * BASE_SIZE, 0.25f * BASE_SIZE, "Wave: " + std::to_string(curr_wave), window, font_texture);
+            draw_text(0.25f * BASE_SIZE, 0.25f * BASE_SIZE, "wave: " + std::to_string(curr_wave), window, font_texture);
 
-            if (1 == game_over)
-            {
-                //I was too lazy to add center alignment, so I just wrote numbers instead.
+            if (game_over) {
                 draw_text(0.5f * (SCREEN_WIDTH - 5 * BASE_SIZE), 0.5f * (SCREEN_HEIGHT - BASE_SIZE), "Game over!", window, font_texture);
-            }
-            else if (1 == next_wave)
-            {
+            } else if (1 == next_wave) {
                 draw_text(0.5f * (SCREEN_WIDTH - 5.5f * BASE_SIZE), 0.5f * (SCREEN_HEIGHT - BASE_SIZE), "Next level!", window, font_texture);
             }
         }
-
         window.display();
     }
 
