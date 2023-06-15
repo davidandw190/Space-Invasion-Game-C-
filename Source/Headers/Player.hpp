@@ -15,9 +15,6 @@
 #ifndef PP_SPACE_INVASION_PLAYER_HPP
 #define PP_SPACE_INVASION_PLAYER_HPP
 
-#endif //PP_SPACE_INVASION_PLAYER_HPP
-
-
 
 class Player: public Entity {
 
@@ -58,3 +55,7 @@ public:
 
 
 };
+
+#endif //PP_SPACE_INVASION_PLAYER_HPP
+
+

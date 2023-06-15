@@ -61,17 +61,23 @@ void Player::update(std::mt19937_64& random_engine,
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
             current_power = 0;
+            power_timer = POWERUP_DURATION;
+
 
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
             current_power = 1;
+            power_timer = POWERUP_DURATION;
 
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
             current_power = 2;
+            power_timer = POWERUP_DURATION;
 
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
             current_power = 3;
+            power_timer = POWERUP_DURATION;
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
             current_power = 4;
+            power_timer = POWERUP_DURATION;
         }
 
         // move left
@@ -153,13 +159,15 @@ void Player::update(std::mt19937_64& random_engine,
         if (bonus_enemy.check_powerup_collision(get_hitbox())) {
 
 
-            powerup_type = dis(gen);
+            current_power = dis(gen);
+            power_timer = POWERUP_DURATION + 512;
+
         }
 
-        if (powerup_type > 0) {
-            current_power = powerup_type;
+        if (current_power > 0) {
+//            current_power = powerup_type;
 
-            power_timer = POWERUP_DURATION + 1000;
+//            power_timer = POWERUP_DURATION;
 
             if (power_timer == 0){
                 current_power = 0;

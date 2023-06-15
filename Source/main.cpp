@@ -23,7 +23,7 @@ int main() {
     bool next_wave = false;
 
     unsigned short curr_wave = 0;
-    unsigned short next_wave_timer = NEXT_LEVEL_TRANSITION;
+    unsigned short next_wave_timer = NEXT_WAVE_TRANSITION;
 
     //  to handle user input
     sf::Event event;
@@ -93,7 +93,7 @@ int main() {
                         next_wave = false;
 
                         curr_wave++;
-                        next_wave_timer = NEXT_LEVEL_TRANSITION;
+                        next_wave_timer = NEXT_WAVE_TRANSITION;
 
                         player.reset();
 
@@ -126,16 +126,64 @@ int main() {
         window.draw(background_sprite);
 
         if (!player.get_dead()) {
-            player.draw(window);
+
             enemyManager.draw(window);
             bonus_enemy.draw(window);
 
-            draw_text(0.25f * BASE_SIZE, 0.25f * BASE_SIZE, "wave: " + std::to_string(curr_wave), window, font_texture);
+            if (player.get_current_power() > 0) {
+                powerup_bar_sprite.setColor(sf::Color(255, 255, 255));
+                powerup_bar_sprite.setPosition(SCREEN_WIDTH - powerup_bar_texture.getSize().x - 0.25f * BASE_SIZE, 0.25f * BASE_SIZE);
+                powerup_bar_sprite.setTextureRect(sf::IntRect(0, 0, powerup_bar_texture.getSize().x, BASE_SIZE));
+
+                window.draw(powerup_bar_sprite);
+
+                powerup_bar_sprite.setPosition(SCREEN_WIDTH - powerup_bar_texture.getSize().x - 0.125f * BASE_SIZE, 0.25f * BASE_SIZE);
+                // computing the length of the bar.
+                powerup_bar_sprite.setTextureRect(sf::IntRect(0.125f * BASE_SIZE, BASE_SIZE, ceil(player.get_power_timer() * static_cast<float>(powerup_bar_texture.getSize().x - 0.25f * BASE_SIZE) / POWERUP_DURATION), BASE_SIZE));
+
+                switch (player.get_current_power()) {
+                    case 1: {
+                        powerup_bar_sprite.setColor(sf::Color(0, 146, 255));
+
+                        break;
+                    } case 2: {
+                        powerup_bar_sprite.setColor(sf::Color(255, 0, 0));
+
+                        break;
+                    } case 3: {
+                        powerup_bar_sprite.setColor(sf::Color(255, 219, 0));
+
+                        break;
+                    } case 4: {
+                        powerup_bar_sprite.setColor(sf::Color(219, 0, 255));
+                        break;
+                    }
+                }
+
+                window.draw(powerup_bar_sprite);
+            }
+
+            player.draw(window);
+
+            draw_text(0.25f * BASE_SIZE, 0.25f * BASE_SIZE,
+                      "Wave: " + std::to_string(curr_wave),
+                      window,
+                      font_texture);
+
 
             if (game_over) {
-                draw_text(0.5f * (SCREEN_WIDTH - 5 * BASE_SIZE), 0.5f * (SCREEN_HEIGHT - BASE_SIZE), "Game over!", window, font_texture);
-            } else if (1 == next_wave) {
-                draw_text(0.5f * (SCREEN_WIDTH - 5.5f * BASE_SIZE), 0.5f * (SCREEN_HEIGHT - BASE_SIZE), "Next level!", window, font_texture);
+                draw_text(0.5f * (SCREEN_WIDTH - 5 * BASE_SIZE),
+                          0.5f * (SCREEN_HEIGHT - BASE_SIZE),
+                          "Game over!",
+                          window,
+                          font_texture);
+
+            } else if (next_wave) {
+                draw_text(0.3f * (SCREEN_WIDTH - 5.5f * BASE_SIZE),
+                          0.5f * (SCREEN_HEIGHT - BASE_SIZE),
+                          "Next wave incoming!",
+                          window,
+                          font_texture);
             }
         }
         window.display();
