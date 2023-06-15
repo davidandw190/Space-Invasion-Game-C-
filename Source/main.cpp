@@ -8,6 +8,7 @@
 #include "Headers/Player.hpp"
 #include "Headers/EnemyManager.hpp"
 #include "Headers/BonusEnemy.hpp"
+#include "Headers/InterfaceManager.hpp"
 
 int main() {
     std::chrono::microseconds lag(0);   // to keep track of time between frames
@@ -34,10 +35,20 @@ int main() {
 
 
     sf::Sprite background_sprite;
+    sf::Sprite powerup_bar_sprite;
+
     sf::Texture background_texture;
+    sf::Texture font_texture;
+    sf::Texture powerup_bar_texture;
 
     background_texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Background.png)");
     background_sprite.setTexture(background_texture);
+
+    font_texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Font.png)");
+
+
+    powerup_bar_texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\PowerupBar.png)");
+    powerup_bar_sprite.setTexture(powerup_bar_texture);
 
     Player player;
 
@@ -118,6 +129,18 @@ int main() {
             player.draw(window);
             enemyManager.draw(window);
             bonus_enemy.draw(window);
+
+            draw_text(0.25f * BASE_SIZE, 0.25f * BASE_SIZE, "Wave: " + std::to_string(curr_wave), window, font_texture);
+
+            if (1 == game_over)
+            {
+                //I was too lazy to add center alignment, so I just wrote numbers instead.
+                draw_text(0.5f * (SCREEN_WIDTH - 5 * BASE_SIZE), 0.5f * (SCREEN_HEIGHT - BASE_SIZE), "Game over!", window, font_texture);
+            }
+            else if (1 == next_wave)
+            {
+                draw_text(0.5f * (SCREEN_WIDTH - 5.5f * BASE_SIZE), 0.5f * (SCREEN_HEIGHT - BASE_SIZE), "Next level!", window, font_texture);
+            }
         }
 
         window.display();

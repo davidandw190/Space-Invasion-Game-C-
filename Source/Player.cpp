@@ -47,51 +47,6 @@ void Player::reset() {
 
 }
 
-
-void Player::die() {
-    this->dead = true;
-}
-
-void Player::draw(sf::RenderWindow& window) {
-    if (!dead) {
-        // here we basically iterate over the player texture according to `the current_power` offset
-        sprite.setTextureRect(
-                sf::IntRect(BASE_SIZE * current_power, 0, BASE_SIZE, BASE_SIZE));
-
-        // I set the position of the player's sprite as a vector since it does not accept actulat ints
-        sprite.setPosition(sf::Vector2f(x, y));
-
-        for (const Bullet& bullet : player_bullets) {
-            bullet_sprite.setPosition(bullet.x, bullet.y);
-
-            window.draw(bullet_sprite);
-        }
-
-        window.draw(sprite);
-
-        if (!shield_animation_over) {
-            // the sheild beign destroyed.. we'll show a blue explosion.
-            explosion.draw(x, y, window, sf::Color(0, 109, 255));
-        }
-
-
-    } else if (!dead_animation_over) {
-
-        explosion.draw(x, y, window, sf::Color(255, 36, 0));
-    }
-}
-
-
-sf::IntRect Player::get_hitbox() const {
-    return sf::IntRect(
-            x + 0.125f * BASE_SIZE,
-            y + 0.125f * BASE_SIZE,
-            0.75f * BASE_SIZE,
-            0.75f * BASE_SIZE
-            );
-
-}
-
 void Player::update(std::mt19937_64& random_engine,
                     std::vector<Bullet>& enemy_bullets,
                     std::vector<Enemy>& enemies,
@@ -198,14 +153,16 @@ void Player::update(std::mt19937_64& random_engine,
 
             power_timer = POWERUP_DURATION;
 
+            if (power_timer == 0){
+                current_power = 0;
+
+            } else {
+                power_timer--;
+            }
+
         }
 
-        if (power_timer == 0){
-            current_power = 0;
 
-        } else {
-            power_timer--;
-        }
 
         if (!shield_animation_over) {
             shield_animation_over = explosion.update();
@@ -230,7 +187,7 @@ void Player::update(std::mt19937_64& random_engine,
     for (Enemy& enemy : enemies) {
         for (Bullet& bullet : player_bullets) {
             if ((!bullet.dead) && (0 < enemy.get_health())
-            && enemy.get_hitbox().intersects(bullet.get_hitbox())) {
+                && enemy.get_hitbox().intersects(bullet.get_hitbox())) {
 
                 bullet.dead = true;
 
@@ -243,10 +200,59 @@ void Player::update(std::mt19937_64& random_engine,
 
     player_bullets.erase(
             remove_if(player_bullets.begin(),player_bullets.end(), [](const Bullet& bullet) {
-        return bullet.dead;
-    }), player_bullets.end());
+                return bullet.dead;
+            }), player_bullets.end());
 
 }
+
+void Player::draw(sf::RenderWindow& window) {
+    if (!dead) {
+        // here we basically iterate over the player texture according to `the current_power` offset
+        sprite.setTextureRect(
+                sf::IntRect(BASE_SIZE * current_power, 0, BASE_SIZE, BASE_SIZE));
+
+        // I set the position of the player's sprite as a vector since it does not accept actulat ints
+        sprite.setPosition(sf::Vector2f(x, y));
+
+        for (const Bullet& bullet : player_bullets) {
+            bullet_sprite.setPosition(bullet.x, bullet.y);
+
+            window.draw(bullet_sprite);
+        }
+
+        window.draw(sprite);
+
+        if (!shield_animation_over) {
+            // the sheild beign destroyed.. we'll show a blue explosion.
+            explosion.draw(x, y, window, sf::Color(0, 109, 255));
+        }
+
+
+    } else if (!dead_animation_over) {
+
+        explosion.draw(x, y, window, sf::Color(255, 36, 0));
+    }
+}
+
+
+sf::IntRect Player::get_hitbox() const {
+    return sf::IntRect(
+            x + 0.125f * BASE_SIZE,
+            y + 0.125f * BASE_SIZE,
+            0.75f * BASE_SIZE,
+            0.75f * BASE_SIZE
+            );
+
+}
+
+
+
+void Player::die() {
+    this->dead = true;
+}
+
+
+
 
 bool Player::get_dead_animation_over() const {
     return dead_animation_over;
