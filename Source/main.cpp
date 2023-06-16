@@ -12,12 +12,10 @@
 
 int main() {
     std::chrono::microseconds lag(0);   // to keep track of time between frames
-    std::chrono::steady_clock::time_point prev_time;    // used to comp elapsed time between frames
+    std::chrono::steady_clock::time_point prev_time;    // used to compute elapsed time between frames
 
-    // random number generator using the current time as seed value
-    std::mt19937_64 random_engine(
-            std::chrono::system_clock::now().time_since_epoch().count()
-    );
+    // random number generator using the current time as the seed value
+    std::mt19937_64 random_engine(std::chrono::system_clock::now().time_since_epoch().count());
 
     bool game_over = false;
     bool next_wave = false;
@@ -33,7 +31,6 @@ int main() {
                             sf::Style::Close);
     window.setView(sf::View(sf::FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)));
 
-
     sf::Sprite background_sprite;
     sf::Sprite powerup_bar_sprite;
 
@@ -46,12 +43,11 @@ int main() {
 
     font_texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Font.png)");
 
-
     powerup_bar_texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\PowerupBar.png)");
     powerup_bar_sprite.setTexture(powerup_bar_texture);
 
-    Player player;
-
+    Player player1(false);
+    Player player2(true);
     EnemyManager enemyManager;
 
     BonusEnemy bonus_enemy(random_engine);
@@ -59,7 +55,6 @@ int main() {
     prev_time = std::chrono::steady_clock::now();   // the initial value of prev_time
 
     while (window.isOpen()) {
-
         // to store the computed elapsed time since the last frame
         std::chrono::microseconds delta_time =
                 std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - prev_time);
@@ -78,25 +73,25 @@ int main() {
                 }
             }
 
-            if (player.get_dead_animation_over()) {
+            if (player1.get_dead_animation_over()) {
                 game_over = true;
             }
 
-            if (enemyManager.reached_player(player.get_y())) {
-                player.die();
+            if (enemyManager.reached_player(player1.get_y())) {
+                player1.die();
+                player2.die();
             }
 
             if (!game_over) {
                 if (enemyManager.get_enemies().empty()) {
-                    if (0 == next_wave_timer)
-                    {
+                    if (0 == next_wave_timer) {
                         next_wave = false;
 
                         curr_wave++;
                         next_wave_timer = NEXT_WAVE_TRANSITION;
 
-                        player.reset();
-
+                        player1.reset();
+                        player2.reset();
                         enemyManager.reset(curr_wave);
 
                         bonus_enemy.reset(true, random_engine);
@@ -106,17 +101,16 @@ int main() {
                         next_wave_timer--;
                     }
                 } else {
-                    player.update(random_engine, enemyManager.get_enemy_bullets(), enemyManager.get_enemies(), bonus_enemy);
+                    player1.update(random_engine, enemyManager.get_enemy_bullets(), enemyManager.get_enemies(), bonus_enemy, false);
+                    player2.update(random_engine, enemyManager.get_enemy_bullets(), enemyManager.get_enemies(), bonus_enemy, true);
                     enemyManager.update(random_engine);
                     bonus_enemy.update(random_engine);
                 }
-
-
             } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-
                 game_over = false;
                 curr_wave = 0;
-                player.reset();
+                player1.reset();
+                player2.reset();
                 enemyManager.reset(0);
                 bonus_enemy.reset(true, random_engine);
             }
@@ -125,12 +119,11 @@ int main() {
         window.clear();
         window.draw(background_sprite);
 
-        if (!player.get_dead()) {
-
+        if (!player1.get_dead() || !player2.get_dead()) {
             enemyManager.draw(window);
             bonus_enemy.draw(window);
 
-            if (player.get_current_power() > 0) {
+            if (player1.get_current_power() > 0) {
                 powerup_bar_sprite.setColor(sf::Color(255, 255, 255));
                 powerup_bar_sprite.setPosition(SCREEN_WIDTH - powerup_bar_texture.getSize().x - 0.25f * BASE_SIZE, 0.25f * BASE_SIZE);
                 powerup_bar_sprite.setTextureRect(sf::IntRect(0, 0, powerup_bar_texture.getSize().x, BASE_SIZE));
@@ -139,37 +132,61 @@ int main() {
 
                 powerup_bar_sprite.setPosition(SCREEN_WIDTH - powerup_bar_texture.getSize().x - 0.125f * BASE_SIZE, 0.25f * BASE_SIZE);
                 // computing the length of the bar.
-                powerup_bar_sprite.setTextureRect(sf::IntRect(0.125f * BASE_SIZE, BASE_SIZE, ceil(player.get_power_timer() * static_cast<float>(powerup_bar_texture.getSize().x - 0.25f * BASE_SIZE) / POWERUP_DURATION), BASE_SIZE));
+                powerup_bar_sprite.setTextureRect(sf::IntRect(0.125f * BASE_SIZE, BASE_SIZE, ceil(player1.get_power_timer() * static_cast<float>(powerup_bar_texture.getSize().x - 0.25f * BASE_SIZE) / POWERUP_DURATION), BASE_SIZE));
 
-                switch (player.get_current_power()) {
-                    case 1: {
+                switch (player1.get_current_power()) {
+                    case 1:
                         powerup_bar_sprite.setColor(sf::Color(0, 146, 255));
-
                         break;
-                    } case 2: {
+                    case 2:
                         powerup_bar_sprite.setColor(sf::Color(255, 0, 0));
-
                         break;
-                    } case 3: {
+                    case 3:
                         powerup_bar_sprite.setColor(sf::Color(255, 219, 0));
-
                         break;
-                    } case 4: {
+                    case 4:
                         powerup_bar_sprite.setColor(sf::Color(219, 0, 255));
                         break;
-                    }
                 }
 
                 window.draw(powerup_bar_sprite);
             }
 
-            player.draw(window);
+            if (player2.get_current_power() > 0) {
+                powerup_bar_sprite.setColor(sf::Color(255, 255, 255));
+                powerup_bar_sprite.setPosition(0.25f * BASE_SIZE, 0.75f * BASE_SIZE);
+                powerup_bar_sprite.setTextureRect(sf::IntRect(0, 0, powerup_bar_texture.getSize().x, BASE_SIZE));
 
+                window.draw(powerup_bar_sprite);
+
+                powerup_bar_sprite.setPosition(0.375f * BASE_SIZE, 0.75f * BASE_SIZE);
+                // computing the length of the bar.
+                powerup_bar_sprite.setTextureRect(sf::IntRect(0.125f * BASE_SIZE, BASE_SIZE, ceil(player2.get_power_timer() * static_cast<float>(powerup_bar_texture.getSize().x - 0.25f * BASE_SIZE) / POWERUP_DURATION), BASE_SIZE));
+
+                switch (player2.get_current_power()) {
+                    case 1:
+                        powerup_bar_sprite.setColor(sf::Color(0, 146, 255));
+                        break;
+                    case 2:
+                        powerup_bar_sprite.setColor(sf::Color(255, 0, 0));
+                        break;
+                    case 3:
+                        powerup_bar_sprite.setColor(sf::Color(255, 219, 0));
+                        break;
+                    case 4:
+                        powerup_bar_sprite.setColor(sf::Color(219, 0, 255));
+                        break;
+                }
+
+                window.draw(powerup_bar_sprite);
+            }
+
+            player1.draw(window);
+            player2.draw(window);
             draw_text(0.25f * BASE_SIZE, 0.25f * BASE_SIZE,
                       "Wave: " + std::to_string(curr_wave),
                       window,
                       font_texture);
-
 
             if (game_over) {
                 draw_text(0.5f * (SCREEN_WIDTH - 5 * BASE_SIZE),
@@ -177,7 +194,6 @@ int main() {
                           "Game over!",
                           window,
                           font_texture);
-
             } else if (next_wave) {
                 draw_text(0.3f * (SCREEN_WIDTH - 5.5f * BASE_SIZE),
                           0.5f * (SCREEN_HEIGHT - BASE_SIZE),
