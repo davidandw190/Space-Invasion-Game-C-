@@ -170,7 +170,7 @@ void Player::update(std::mt19937_64& random_engine,
                 reload_timer--;
             }
         }
-
+//
 
 
         for (Bullet& bullet : enemy_bullets) {
