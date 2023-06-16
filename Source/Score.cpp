@@ -4,52 +4,58 @@
 
 #include "Headers/Score.hpp"
 
-#include <iostream>
 
 Score::Score()
-        : enemies_shot(0),
-          waves_survived(0),
-          powerups_taken(0),
-          shoot_accuracy(0)
-{
+        : enemiesShot(0),
+          wavesSurvived(0),
+          powerupsTaken(0),
+          shotsFired(0),
+          shotsHit(0)
+{}
+
+void Score::increaseEnemiesShot() {
+    enemiesShot++;
 }
 
-void Score::incrementEnemiesShot() {
-    enemies_shot++;
+void Score::increaseWavesSurvived() {
+    wavesSurvived++;
 }
 
-void Score::incrementWavesSurvived() {
-    waves_survived++;
+void Score::increasePowerupsTaken() {
+    powerupsTaken++;
 }
 
-void Score::incrementPowerupsTaken() {
-    powerups_taken++;
+void Score::increaseShotsFired() {
+    shotsFired++;
 }
 
-void Score::updateShootAccuracy(unsigned int totalShots, unsigned int hits) {
-    if (totalShots > 0)
-        shoot_accuracy = (hits * 100) / totalShots;
-}
-
-void Score::reset() {
-    enemies_shot = 0;
-    waves_survived = 0;
-    powerups_taken = 0;
-    shoot_accuracy = 0;
+void Score::increaseShotsHit() {
+    shotsHit++;
 }
 
 unsigned int Score::getEnemiesShot() const {
-    return enemies_shot;
+    return enemiesShot;
 }
 
 unsigned int Score::getWavesSurvived() const {
-    return waves_survived;
+    return wavesSurvived;
 }
 
 unsigned int Score::getPowerupsTaken() const {
-    return powerups_taken;
+    return powerupsTaken;
 }
 
-unsigned int Score::getShootAccuracy() const {
-    return shoot_accuracy;
+unsigned int Score::getShotsFired() const {
+    return shotsFired;
+}
+
+unsigned int Score::getShotsHit() const {
+    return shotsHit;
+}
+
+float Score::getShootAccuracy() const {
+    if (shotsFired == 0) {
+        return 0.0f;
+    }
+    return static_cast<float>(shotsHit) / shotsFired * 100.0f;
 }

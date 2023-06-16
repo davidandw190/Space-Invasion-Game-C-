@@ -8,25 +8,31 @@
 #include <string>
 
 class Score {
+
 private:
-    unsigned int enemies_shot;
-    unsigned int waves_survived;
-    unsigned int powerups_taken;
-    unsigned int shoot_accuracy;
+    unsigned int enemiesShot;
+    unsigned int wavesSurvived;
+    unsigned int powerupsTaken;
+    unsigned int shotsFired;
+    unsigned int shotsHit;
 
 public:
     Score();
 
-    void incrementEnemiesShot();
-    void incrementWavesSurvived();
-    void incrementPowerupsTaken();
-    void updateShootAccuracy(unsigned int totalShots, unsigned int hits);
-    void reset();
+    void increaseEnemiesShot();
+    void increaseWavesSurvived();
+    void increasePowerupsTaken();
+    void increaseShotsFired();
+    void increaseShotsHit();
 
     unsigned int getEnemiesShot() const;
     unsigned int getWavesSurvived() const;
     unsigned int getPowerupsTaken() const;
-    unsigned int getShootAccuracy() const;
+    unsigned int getShotsFired() const;
+    unsigned int getShotsHit() const;
+    float getShootAccuracy() const;
+
 };
+
 #endif //PP_SPACE_INVASION_SCORE_HPP
 

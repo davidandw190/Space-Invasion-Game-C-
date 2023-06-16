@@ -96,19 +96,24 @@ sf::IntRect Enemy::get_hitbox() const {
 
 void Enemy::shoot(std::vector<Bullet>& enemy_bullets) {
     switch (enemy_type) {
+
         case 0: {
             enemy_bullets.push_back(Bullet(0, ENEMY_BULLET_SPEED, x, y));
+            enemy_bullets.push_back(Bullet(0.25f * ENEMY_BULLET_SPEED, ENEMY_BULLET_SPEED, x, y));
+            enemy_bullets.push_back(Bullet(-0.25f * ENEMY_BULLET_SPEED, ENEMY_BULLET_SPEED, x, y));
 
             break;
+
         } case 1: {
             enemy_bullets.push_back(Bullet(0.125f * ENEMY_BULLET_SPEED, ENEMY_BULLET_SPEED, x, y));
             enemy_bullets.push_back(Bullet(-0.125f * ENEMY_BULLET_SPEED, ENEMY_BULLET_SPEED, x, y));
 
             break;
-        } case 2: {
+        }
+        case 2: {
             enemy_bullets.push_back(Bullet(0, ENEMY_BULLET_SPEED, x, y));
-            enemy_bullets.push_back(Bullet(0.25f * ENEMY_BULLET_SPEED, ENEMY_BULLET_SPEED, x, y));
-            enemy_bullets.push_back(Bullet(-0.25f * ENEMY_BULLET_SPEED, ENEMY_BULLET_SPEED, x, y));
+
+            break;
         }
     }
 }
