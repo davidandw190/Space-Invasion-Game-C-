@@ -5,6 +5,9 @@
 #include "Headers/Score.hpp"
 
 
+
+
+
 Score::Score()
         : enemiesShot(0),
           wavesSurvived(0),
