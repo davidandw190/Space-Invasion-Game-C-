@@ -82,17 +82,17 @@ void EnemyManager::draw(sf::RenderWindow& window) {
 }
 
 
-void EnemyManager::reset(unsigned short i_level)
+void EnemyManager::reset(unsigned short wave)
 {
     unsigned char enemy_x = 0;
     unsigned char enemy_y = 0;
 
-    std::string level_sketch = "1 1 3 3 1 1 0 3 1 1 0 0\n2 2 3 3 2 2 3 3 2 2\n0 0 0 0 1 1 1 1\n1 3 1 1 2 3 2 2";
+    std::string level_sketch;
 
-    pause = std::max<short>(ENEMY_MOVE_PAUSE_START_MIN, ENEMY_MOVE_PAUSE_START - ENEMY_MOVE_PAUSE_DECREASE * i_level);
+    pause = std::max<short>(ENEMY_MOVE_PAUSE_START_MIN, ENEMY_MOVE_PAUSE_START - ENEMY_MOVE_PAUSE_DECREASE * wave);
     move_timer = pause;
 
-    shoot_distrib = std::uniform_int_distribution<unsigned short>(0, std::max<short>(ENEMY_SHOOT_CHANCE_MIN, ENEMY_SHOOT_CHANCE - ENEMY_SHOOT_CHANCE_INCREASE * i_level));
+    shoot_distrib = std::uniform_int_distribution<unsigned short>(0, std::max<short>(ENEMY_SHOOT_CHANCE_MIN, ENEMY_SHOOT_CHANCE - ENEMY_SHOOT_CHANCE_INCREASE * wave));
 
     for (AnimationManager& enemy_animation : enemy_animations) {
         enemy_animation.reset();
@@ -101,6 +101,64 @@ void EnemyManager::reset(unsigned short i_level)
     enemy_bullets.clear();
 
     enemies.clear();
+
+    if (TOTAL_WAVES <= wave) {
+        wave = 0.5f * TOTAL_WAVES + wave % static_cast<unsigned char>(0.5f * TOTAL_WAVES);
+    }
+
+    switch (wave)
+    {
+        case 0:
+        {
+            level_sketch = "0 1 0 1 0 1 0 1 \n 2 0 2 1 2 0 2 1\n1 2 2 1 2 2 1 2 \n 1 0 2 0 1 0 2 0";
+
+            break;
+        }
+        case 1:
+        {
+            level_sketch = "1010101020101010\n0000000000000000\n0000000000000000\n0000000000000000";
+
+            break;
+        }
+        case 2:
+        {
+            //OH MY GOD, IS THAT A CHECKBOARD PATTERN?!
+            level_sketch = "1010101010101010\n0101010101010101\n1010101010101010\n0101010101010101";
+
+            break;
+        }
+        case 3:
+        {
+            level_sketch = "1111111111111111\n1111111111111111\n1111111111111111\n1111111111111111";
+
+            break;
+        }
+        case 4:
+        {
+            //CHECKBOARD PATTERN WITH A SOLID PATTERN! I'M A GENIUS!
+            level_sketch = "2222222222222222\n1111111111111111\n1010101010101010\n0101010101010101";
+
+            break;
+        }
+        case 5:
+        {
+            //EASY ENEMIES AT THE TOP AND HARD ENEMIES AT THE BOTTOM! IT'S A REVOLUTION IN LEVEL DESIGN!
+            level_sketch = "0000000000000000\n2222222222222222\n1111111111111111\n1111111111111111";
+
+            break;
+        }
+        case 6:
+        {
+            //CHECKBOARD PATTERN AGAIN?!
+            level_sketch = "2121212121212121\n1212121212121212\n2121212121212121\n1212121212121212";
+
+            break;
+        }
+        case 7:
+        {
+            level_sketch = "2222222222222222\n2222222222222222\n2222222222222222\n2222222222222222";
+        }
+    }
 
 
     // we're converting each character into an enemy.
@@ -172,11 +230,11 @@ void EnemyManager::update(std::mt19937_64& random_engine) {
     }
 
     dead_enemies_start = std::remove_if(enemies.begin(), enemies.end(), isEnemyNotAlive);
-    enemies.erase(dead_enemies_start, enemies.end());
 
     pause = std::max<int>(ENEMY_MOVE_PAUSE_MIN, pause - ENEMY_MOVE_PAUSE_DECREASE * (enemies.end() - dead_enemies_start));
 
     enemies.erase(dead_enemies_start, enemies.end());
+
 
     for (Bullet& enemy_bullet : enemy_bullets) {
         enemy_bullet.update();
