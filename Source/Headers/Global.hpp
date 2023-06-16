@@ -56,6 +56,13 @@ constexpr unsigned char POWERUP_ANIMATION_SPEED = 16;
 constexpr unsigned char POWERUP_SPEED = 2;
 constexpr unsigned char POWERUP_TYPES = 4;
 
+
+// player2 related stuff
+//constexpr unsigned char PLAYER2_MOVE_SPEED = 2;
+//constexpr unsigned char PLAYER2_BULLET_SPEED = 4;
+//constexpr unsigned char RELOAD2_DURATION = 30;
+//constexpr unsigned char FAST_RELOAD2_DURATION = 6;
+
 // a constant for the frame duration in ms
 constexpr std::chrono::microseconds FRAME_DURATION(16667);
 

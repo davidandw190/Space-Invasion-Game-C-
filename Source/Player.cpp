@@ -1,4 +1,3 @@
-//
 // Created by David on 5/20/2023.
 //
 
@@ -27,6 +26,13 @@ Player::Player() : Entity(), explosion(EXPLOSION_ANIMATION_SPEED, BASE_SIZE,
     sprite.setTexture(texture);
     bullet_sprite.setTexture(bullet_texture);
 
+}
+// Rest of the Player class implementation...
+
+void Player::die() {
+    // Handle the player's death
+    // Implement any additional logic specific to the player if needed
+    dead = true;
 }
 
 void Player::reset() {
@@ -257,18 +263,9 @@ sf::IntRect Player::get_hitbox() const {
             y + 0.125f * BASE_SIZE,
             0.75f * BASE_SIZE,
             0.75f * BASE_SIZE
-            );
+    );
 
 }
-
-
-
-void Player::die() {
-    this->dead = true;
-}
-
-
-
 
 bool Player::get_dead_animation_over() const {
     return dead_animation_over;

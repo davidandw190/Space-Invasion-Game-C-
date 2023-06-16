@@ -9,7 +9,7 @@
 #include "Headers/EnemyManager.hpp"
 #include "Headers/BonusEnemy.hpp"
 #include "Headers/InterfaceManager.hpp"
-
+#include "Headers/Player2.hpp"
 int main() {
     std::chrono::microseconds lag(0);   // to keep track of time between frames
     std::chrono::steady_clock::time_point prev_time;    // used to comp elapsed time between frames

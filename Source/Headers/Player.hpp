@@ -12,14 +12,13 @@
 #include "Enemy.hpp"
 #include "BonusEnemy.hpp"
 
-#ifndef PP_SPACE_INVASION_PLAYER_HPP
-#define PP_SPACE_INVASION_PLAYER_HPP
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
 
 
-class Player: public Entity {
-
+class Player : public Entity {
 private:
-    bool dead{};
+    bool dead;
     bool dead_animation_over;
     bool shield_animation_over;
 
@@ -36,26 +35,19 @@ private:
 
 public:
     Player();
-
-    void reset();
-    void die();
-
-    sf::IntRect get_hitbox() const override;  // will be used for collision detection
-
-    void draw(sf::RenderWindow &window);
-
-    void update(std::mt19937_64 &random_engine, std::vector<Bullet> &enemy_bullets, std::vector<Enemy> &enemies,
-                BonusEnemy& enemy);
+    virtual void reset();
+    virtual void die();
+    sf::IntRect get_hitbox() const override;
+    virtual void draw(sf::RenderWindow& window);
+    virtual void update(std::mt19937_64& random_engine, std::vector<Bullet>& enemy_bullets, std::vector<Enemy>& enemies, BonusEnemy& bonus_enemy);
 
     bool get_dead_animation_over() const;
-
     unsigned char get_current_power() const;
-
     unsigned short get_power_timer() const;
-
-
 };
 
-#endif //PP_SPACE_INVASION_PLAYER_HPP
+
+
+#endif // PLAYER_HPP
 
 
