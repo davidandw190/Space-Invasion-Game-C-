@@ -56,6 +56,8 @@ constexpr unsigned char POWERUP_ANIMATION_SPEED = 16;
 constexpr unsigned char POWERUP_SPEED = 2;
 constexpr unsigned char POWERUP_TYPES = 4;
 
+constexpr unsigned short MULTYPLAYER_SWITCH_TIMER = 100;
+
 // a constant for the frame duration in ms
 constexpr std::chrono::microseconds FRAME_DURATION(16667);
 

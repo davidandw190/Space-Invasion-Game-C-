@@ -18,7 +18,7 @@ Player::Player(bool isPlayer2) : Entity(), explosion(EXPLOSION_ANIMATION_SPEED, 
     current_power = 0;
     reload_timer = 0;
 
-    if (this->isPlayer2) {
+    if (this->checkP2()) {
         // load player2 texture
         texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Test-Player.png)");
     } else {
@@ -41,6 +41,16 @@ void Player::reset() {
 
     if (isPlayer2) {
         isPlayer2 = true;
+    } else {
+
+    }
+
+    if (this->checkP2()) {
+        // load player2 texture
+        texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Test-Player.png)");
+    } else {
+        // load player1 texture
+        texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Test-Player2.png)");
     }
 
 

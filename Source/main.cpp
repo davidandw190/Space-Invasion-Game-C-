@@ -20,6 +20,8 @@ int main() {
     bool game_over = false;
     bool next_wave = false;
 
+    unsigned short multiplayer_timer = 0;
+
     unsigned short curr_wave = 0;
     unsigned short next_wave_timer = NEXT_WAVE_TRANSITION;
 
@@ -88,8 +90,6 @@ int main() {
 
 
 
-
-
             if (!game_over) {
                 if (enemyManager.get_enemies().empty()) {
                     if (0 == next_wave_timer) {
@@ -126,6 +126,7 @@ int main() {
                 if (player2.checkP2()) {
                     player2.reset();
                 }
+
                 enemyManager.reset(0);
                 bonus_enemy.reset(true, random_engine);
             }
@@ -138,14 +139,26 @@ int main() {
             enemyManager.draw(window);
             bonus_enemy.draw(window);
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
-                if (player2.checkP2()) {
-                    player2.disableP2();
-                } else {
-                    player2.enableP2();
-                    player2.reset();
+            if (multiplayer_timer == 0){
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
+                    if (player2.checkP2()) {
+                        player2.disableP2();
+                        player2.die();
+                        multiplayer_timer = MULTYPLAYER_SWITCH_TIMER;
+
+                    } else {
+                        player2.enableP2();
+                        player2.reset();
+                        multiplayer_timer = MULTYPLAYER_SWITCH_TIMER;
+                    }
+
+
                 }
+            } else {
+                multiplayer_timer--;
             }
+
+
 
             if (player1.get_current_power() > 0) {
                 powerup_bar_sprite.setColor(sf::Color(255, 255, 255));
@@ -178,7 +191,7 @@ int main() {
 
             if (player2.get_current_power() > 0) {
                 powerup_bar_sprite.setColor(sf::Color(255, 255, 255));
-                powerup_bar_sprite.setPosition(0.25f * BASE_SIZE, 0.75f * BASE_SIZE);
+                powerup_bar_sprite.setPosition(0.01f * BASE_SIZE, 0.01f * BASE_SIZE);
                 powerup_bar_sprite.setTextureRect(sf::IntRect(0, 0, powerup_bar_texture.getSize().x, BASE_SIZE));
 
                 window.draw(powerup_bar_sprite);
