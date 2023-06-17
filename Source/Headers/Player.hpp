@@ -20,6 +20,8 @@ private:
     bool dead_animation_over;
     bool shield_animation_over;
 
+    bool isPlayer2;
+
     unsigned char current_power;
     unsigned char reload_timer;
     unsigned short power_timer;
@@ -52,6 +54,12 @@ public:
     unsigned char get_current_power() const;
 
     unsigned short get_power_timer() const;
+
+    bool checkP2() const;
+
+    void disableP2();
+
+    void enableP2();
 };
 
 #endif // PP_SPACE_INVASION_PLAYER_HPP

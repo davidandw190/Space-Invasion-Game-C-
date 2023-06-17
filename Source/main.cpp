@@ -47,7 +47,7 @@ int main() {
     powerup_bar_sprite.setTexture(powerup_bar_texture);
 
     Player player1(false);
-    Player player2(true);
+    Player player2(false);
     EnemyManager enemyManager;
 
     BonusEnemy bonus_enemy(random_engine);
@@ -79,8 +79,16 @@ int main() {
 
             if (enemyManager.reached_player(player1.get_y())) {
                 player1.die();
-                player2.die();
+
+                if (player2.checkP2()) {
+                    player2.die();
+                }
+
             }
+
+
+
+
 
             if (!game_over) {
                 if (enemyManager.get_enemies().empty()) {
@@ -102,7 +110,11 @@ int main() {
                     }
                 } else {
                     player1.update(random_engine, enemyManager.get_enemy_bullets(), enemyManager.get_enemies(), bonus_enemy, false);
-                    player2.update(random_engine, enemyManager.get_enemy_bullets(), enemyManager.get_enemies(), bonus_enemy, true);
+
+                    if (player2.checkP2()) {
+                        player2.update(random_engine, enemyManager.get_enemy_bullets(), enemyManager.get_enemies(), bonus_enemy, true);
+                    }
+
                     enemyManager.update(random_engine);
                     bonus_enemy.update(random_engine);
                 }
@@ -110,7 +122,10 @@ int main() {
                 game_over = false;
                 curr_wave = 0;
                 player1.reset();
-                player2.reset();
+
+                if (player2.checkP2()) {
+                    player2.reset();
+                }
                 enemyManager.reset(0);
                 bonus_enemy.reset(true, random_engine);
             }
@@ -122,6 +137,15 @@ int main() {
         if (!player1.get_dead() || !player2.get_dead()) {
             enemyManager.draw(window);
             bonus_enemy.draw(window);
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
+                if (player2.checkP2()) {
+                    player2.disableP2();
+                } else {
+                    player2.enableP2();
+                    player2.reset();
+                }
+            }
 
             if (player1.get_current_power() > 0) {
                 powerup_bar_sprite.setColor(sf::Color(255, 255, 255));
@@ -182,7 +206,11 @@ int main() {
             }
 
             player1.draw(window);
-            player2.draw(window);
+
+            if (player2.checkP2()) {
+                player2.draw(window);
+            }
+
             draw_text(0.25f * BASE_SIZE, 0.25f * BASE_SIZE,
                       "Wave: " + std::to_string(curr_wave),
                       window,
@@ -195,7 +223,7 @@ int main() {
                           window,
                           font_texture);
             } else if (next_wave) {
-                draw_text(0.3f * (SCREEN_WIDTH - 5.5f * BASE_SIZE),
+                draw_text(0.4f * (SCREEN_WIDTH - 5.5f * BASE_SIZE),
                           0.5f * (SCREEN_HEIGHT - BASE_SIZE),
                           "Next wave incoming!",
                           window,
@@ -204,6 +232,6 @@ int main() {
         }
         window.display();
     }
-//
+
     return 0;
 }

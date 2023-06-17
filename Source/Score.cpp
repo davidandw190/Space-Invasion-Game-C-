@@ -4,10 +4,6 @@
 
 #include "Headers/Score.hpp"
 
-
-
-
-
 Score::Score()
         : enemiesShot(0),
           wavesSurvived(0),
@@ -61,4 +57,13 @@ float Score::getShootAccuracy() const {
         return 0.0f;
     }
     return static_cast<float>(shotsHit) / shotsFired * 100.0f;
+}
+
+void Score::reset() {
+    this->enemiesShot = 0;
+    this->wavesSurvived = 0;
+    this->powerupsTaken = 0;
+    this->shotsFired = 0;
+    this->shotsHit = 0;
+
 }

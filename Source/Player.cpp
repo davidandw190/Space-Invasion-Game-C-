@@ -18,12 +18,12 @@ Player::Player(bool isPlayer2) : Entity(), explosion(EXPLOSION_ANIMATION_SPEED, 
     current_power = 0;
     reload_timer = 0;
 
-    if (isPlayer2) {
+    if (this->isPlayer2) {
         // load player2 texture
-        texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Test-Player2.png)");
+        texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Test-Player.png)");
     } else {
         // load player1 texture
-        texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Test-Player.png)");
+        texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Test-Player2.png)");
     }
 
     bullet_texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Player-Bullet.png)");
@@ -38,6 +38,12 @@ void Player::reset() {
     dead_animation_over = false;
     shield_animation_over = true;
     power_timer = 0;
+
+    if (isPlayer2) {
+        isPlayer2 = true;
+    }
+
+
 
     dead = false;
     x = 0.5f * (SCREEN_WIDTH - BASE_SIZE);
@@ -56,7 +62,7 @@ void Player::update(std::mt19937_64& random_engine,
     if (!dead) {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(1, 3);
+        std::uniform_int_distribution<> dis(0, 5);
 
         if (isPlayer2) {
             // controls for player2
@@ -188,7 +194,7 @@ void Player::update(std::mt19937_64& random_engine,
 
         if (bonus_enemy.check_powerup_collision(get_hitbox())) {
             current_power = dis(gen);
-            power_timer = POWERUP_DURATION + 512;
+            power_timer = POWERUP_DURATION;
         }
 
         if (current_power > 0) {
@@ -276,3 +282,15 @@ unsigned short Player::get_power_timer() const {
 unsigned char Player::get_current_power() const {
     return current_power;
 }
+
+bool Player::checkP2() const{
+    return isPlayer2;
+};
+
+void Player::enableP2(){
+    this->isPlayer2 = true;
+};
+
+void Player::disableP2(){
+    this->isPlayer2 = false;
+};

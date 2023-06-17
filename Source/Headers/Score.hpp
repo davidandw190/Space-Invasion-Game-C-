@@ -32,6 +32,7 @@ public:
     unsigned int getShotsHit() const;
     float getShootAccuracy() const;
 
+    void reset();
 };
 
 #endif //PP_SPACE_INVASION_SCORE_HPP
