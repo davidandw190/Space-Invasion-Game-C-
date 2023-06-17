@@ -1,10 +1,9 @@
-//
 // Created by David on 5/19/2023.
 //
 
 #pragma once
 
-#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics.hpp>
 #include <random>
 #include "AnimationManager.hpp"
 #include "Entity.hpp"
@@ -15,11 +14,9 @@
 #ifndef PP_SPACE_INVASION_PLAYER_HPP
 #define PP_SPACE_INVASION_PLAYER_HPP
 
-
-class Player: public Entity {
-
+class Player : public Entity {
 private:
-    bool dead{};
+    bool dead;
     bool dead_animation_over;
     bool shield_animation_over;
 
@@ -35,27 +32,27 @@ private:
     AnimationManager explosion;
 
 public:
-    Player();
+    Player(bool isPlayer2);
 
     void reset();
     void die();
 
-    sf::IntRect get_hitbox() const override;  // will be used for collision detection
+    sf::IntRect get_hitbox() const override; // will be used for collision detection
 
-    void draw(sf::RenderWindow &window);
+    void draw(sf::RenderWindow& window);
 
-    void update(std::mt19937_64 &random_engine, std::vector<Bullet> &enemy_bullets, std::vector<Enemy> &enemies,
-                BonusEnemy& enemy);
+    void update(std::mt19937_64& random_engine,
+                std::vector<Bullet>& enemy_bullets,
+                std::vector<Enemy>& enemies,
+                BonusEnemy& bonus_enemy,
+                bool isPlayer2);
 
     bool get_dead_animation_over() const;
 
     unsigned char get_current_power() const;
 
     unsigned short get_power_timer() const;
-
-
 };
 
-#endif //PP_SPACE_INVASION_PLAYER_HPP
-
-
+#endif // PP_SPACE_INVASION_PLAYER_HPP
+//
