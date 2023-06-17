@@ -9,6 +9,7 @@
 #include "Headers/EnemyManager.hpp"
 #include "Headers/BonusEnemy.hpp"
 #include "Headers/InterfaceManager.hpp"
+#include "Headers/Score.hpp"
 
 int main() {
     std::chrono::microseconds lag(0);   // to keep track of time between frames
@@ -23,6 +24,7 @@ int main() {
     unsigned short multiplayer_timer = 0;
 
     unsigned short curr_wave = 0;
+    unsigned short waves_survived;
     unsigned short next_wave_timer = NEXT_WAVE_TRANSITION;
 
     //  to handle user input
@@ -35,10 +37,12 @@ int main() {
 
     sf::Sprite background_sprite;
     sf::Sprite powerup_bar_sprite;
+    sf::Sprite overlay_sprite;
 
     sf::Texture background_texture;
     sf::Texture font_texture;
     sf::Texture powerup_bar_texture;
+    sf::Texture overlay_texture;
 
     background_texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Background.png)");
     background_sprite.setTexture(background_texture);
@@ -48,11 +52,21 @@ int main() {
     powerup_bar_texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\PowerupBar.png)");
     powerup_bar_sprite.setTexture(powerup_bar_texture);
 
-    Player player1(false);
-    Player player2(false);
+    // Load the overlay texture and set its transparency
+    overlay_texture.loadFromFile(R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Overlay.png)");
+    overlay_sprite.setTexture(overlay_texture);
+    overlay_sprite.setColor(sf::Color(0, 0, 0));
+
+    Score score;
+
+    Player player1(false, score);
+    Player player2(false, score);
+
     EnemyManager enemyManager;
 
     BonusEnemy bonus_enemy(random_engine);
+
+
 
     prev_time = std::chrono::steady_clock::now();   // the initial value of prev_time
 
@@ -77,6 +91,7 @@ int main() {
 
             if (player1.get_dead_animation_over()) {
                 game_over = true;
+
             }
 
             if (enemyManager.reached_player(player1.get_y())) {
@@ -88,11 +103,9 @@ int main() {
 
             }
 
-
-
             if (!game_over) {
                 if (enemyManager.get_enemies().empty()) {
-                    if (0 == next_wave_timer) {
+                    if (next_wave_timer == 0) {
                         next_wave = false;
 
                         curr_wave++;
@@ -122,6 +135,7 @@ int main() {
                 game_over = false;
                 curr_wave = 0;
                 player1.reset();
+                score.reset();
 
                 if (player2.checkP2()) {
                     player2.reset();
@@ -230,12 +244,31 @@ int main() {
                       font_texture);
 
             if (game_over) {
+                window.draw(overlay_sprite);
+
                 draw_text(0.5f * (SCREEN_WIDTH - 5 * BASE_SIZE),
-                          0.5f * (SCREEN_HEIGHT - BASE_SIZE),
+                          0.25f * (SCREEN_HEIGHT - BASE_SIZE),
                           "Game over!",
                           window,
                           font_texture);
+
+                std::string scoreDetails = "Waves Survived: " + std::to_string(curr_wave) + "\n";
+                scoreDetails += "Powerups Taken: " + std::to_string(score.getPowerupsTaken()) + "\n";
+                scoreDetails += "Enemies Killed: " + std::to_string(score.getEnemiesShot()) + "\n";
+                scoreDetails += "Shots Fired:    " + std::to_string(score.getShotsFired()) + "\n";
+                scoreDetails += "Shoot Accuracy: " + std::to_string(score.getShootAccuracy()) + "%";
+
+                draw_text(0.4f * (SCREEN_WIDTH - 5 * BASE_SIZE),
+                          0.4f * (SCREEN_HEIGHT - BASE_SIZE),
+                          scoreDetails,
+                          window,
+                          font_texture);
+
+
             } else if (next_wave) {
+
+                window.draw(overlay_sprite);
+
                 draw_text(0.4f * (SCREEN_WIDTH - 5.5f * BASE_SIZE),
                           0.5f * (SCREEN_HEIGHT - BASE_SIZE),
                           "Next wave incoming!",

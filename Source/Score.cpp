@@ -2,7 +2,11 @@
 // Created by David on 6/15/2023.
 //
 
+#include <iomanip>
+#include <cmath>
+
 #include "Headers/Score.hpp"
+
 
 Score::Score()
         : enemiesShot(0),
@@ -56,14 +60,13 @@ float Score::getShootAccuracy() const {
     if (shotsFired == 0) {
         return 0.0f;
     }
-    return static_cast<float>(shotsHit) / shotsFired * 100.0f;
+    float accuracy = static_cast<float>(enemiesShot) / shotsFired * 100.0f; // Calculate accuracy percentage
+    return std::floor(accuracy * 10.0f) / 10.0f; // Return accuracy with one-decimal precision
 }
 
 void Score::reset() {
     this->enemiesShot = 0;
-    this->wavesSurvived = 0;
     this->powerupsTaken = 0;
     this->shotsFired = 0;
-    this->shotsHit = 0;
 
 }

@@ -224,7 +224,7 @@ void EnemyManager::update(std::mt19937_64& random_engine) {
     for (Enemy& enemy : enemies) {
         enemy.update();
 
-        if (shoot_distrib(random_engine) < 2) {
+        if (shoot_distrib(random_engine) == 69696969) {
             enemy.shoot(enemy_bullets);
         }
     }

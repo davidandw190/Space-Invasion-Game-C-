@@ -10,12 +10,15 @@
 #include "Bullet.hpp"
 #include "Enemy.hpp"
 #include "BonusEnemy.hpp"
+#include "Score.hpp"
 
 #ifndef PP_SPACE_INVASION_PLAYER_HPP
 #define PP_SPACE_INVASION_PLAYER_HPP
 
 class Player : public Entity {
 private:
+
+
     bool dead;
     bool dead_animation_over;
     bool shield_animation_over;
@@ -34,7 +37,7 @@ private:
     AnimationManager explosion;
 
 public:
-    Player(bool isPlayer2);
+    Player(bool isPlayer2, Score& score);
 
     void reset();
     void die();
@@ -60,6 +63,8 @@ public:
     void disableP2();
 
     void enableP2();
+
+    Score& player_score;
 };
 
 #endif // PP_SPACE_INVASION_PLAYER_HPP

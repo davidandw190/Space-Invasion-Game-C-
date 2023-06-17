@@ -10,10 +10,14 @@
 #include "Headers/Bullet.hpp"
 #include "Headers/Enemy.hpp"
 #include "Headers/BonusEnemy.hpp"
+#include "Headers/Score.hpp"
 
-Player::Player(bool isPlayer2) : Entity(), explosion(EXPLOSION_ANIMATION_SPEED, BASE_SIZE,
+Player::Player(bool isPlayer2, Score& score) : Entity(), player_score(score), explosion(EXPLOSION_ANIMATION_SPEED, BASE_SIZE,
                                                      R"(C:\Users\40787\Desktop\PP-SPACE-INVASION\Source\Resources\Explosion.png)") {
     reset();
+
+
+    this->isPlayer2 = isPlayer2;
 
     current_power = 0;
     reload_timer = 0;
@@ -41,8 +45,6 @@ void Player::reset() {
 
     if (isPlayer2) {
         isPlayer2 = true;
-    } else {
-
     }
 
     if (this->checkP2()) {
@@ -178,10 +180,17 @@ void Player::update(std::mt19937_64& random_engine,
                         player_bullets.push_back(Bullet(0, -PLAYER_BULLET_SPEED, x - 0.375f * BASE_SIZE, y));
                         player_bullets.push_back(Bullet(0, -PLAYER_BULLET_SPEED, x + 0.375f * BASE_SIZE, y));
                     }
+
+                    player_score.increaseShotsFired();
+
                 } else if ((current_power == 1) && (sf::Keyboard::isKeyPressed(sf::Keyboard::A))) {
                     reload_timer = RELOAD_DURATION;
                     player_bullets.push_back(Bullet(0, -PLAYER_BULLET_SPEED, x, y));
+                    player_score.increaseShotsFired();
                 }
+
+
+
             } else {
                 reload_timer--;
             }
@@ -197,6 +206,7 @@ void Player::update(std::mt19937_64& random_engine,
                 } else {
                     dead = true;
                 }
+
                 bullet.dead = true;
                 break;
             }
@@ -205,6 +215,7 @@ void Player::update(std::mt19937_64& random_engine,
         if (bonus_enemy.check_powerup_collision(get_hitbox())) {
             current_power = dis(gen);
             power_timer = POWERUP_DURATION;
+            player_score.increasePowerupsTaken();
         }
 
         if (current_power > 0) {
@@ -228,6 +239,7 @@ void Player::update(std::mt19937_64& random_engine,
         if (!bullet.dead) {
             if (bonus_enemy.check_bullet_collision(random_engine, bullet.get_hitbox())) {
                 bullet.dead = true;
+                player_score.increaseEnemiesShot();
             }
         }
     }
@@ -237,6 +249,7 @@ void Player::update(std::mt19937_64& random_engine,
             if ((!bullet.dead) && (0 < enemy.get_health()) && enemy.get_hitbox().intersects(bullet.get_hitbox())) {
                 bullet.dead = true;
                 enemy.hit();
+                player_score.increaseEnemiesShot();
                 break;
             }
         }
