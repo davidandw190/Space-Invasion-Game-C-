@@ -82,8 +82,7 @@ void EnemyManager::draw(sf::RenderWindow& window) {
 }
 
 
-void EnemyManager::reset(unsigned short wave)
-{
+void EnemyManager::reset(unsigned short wave) {
     unsigned char enemy_x = 0;
     unsigned char enemy_y = 0;
 
@@ -106,8 +105,7 @@ void EnemyManager::reset(unsigned short wave)
         wave = 0.5f * TOTAL_WAVES + wave % static_cast<unsigned char>(0.5f * TOTAL_WAVES);
     }
 
-    switch (wave)
-    {
+    switch (wave) {
         case 0:
         {
             level_sketch = "0 1 0 1 0 1 0 1 \n 2 0 2 1 2 0 2 1\n1 2 2 1 2 2 1 2 \n 1 0 2 0 1 0 2 0";
@@ -116,33 +114,33 @@ void EnemyManager::reset(unsigned short wave)
         }
         case 1:
         {
-            level_sketch = "1010101020101010\n0000000000000000\n0000000000000000\n0000000000000000";
+            level_sketch = "1201021212101012\n2120101210122102\n012012010210210\n1201201201201201";
 
             break;
         }
         case 2:
         {
             //OH MY GOD, IS THAT A CHECKBOARD PATTERN?!
-            level_sketch = "1010101010101010\n0101010101010101\n1010101010101010\n0101010101010101";
+            level_sketch = "  02020000202  \n 12210011001221 \n1212120002121212\n 12121200212121 ";
 
             break;
         }
         case 3:
         {
-            level_sketch = "1111111111111111\n1111111111111111\n1111111111111111\n1111111111111111";
+            level_sketch = "   1111111111   \n1111111111111111\n1111111111111111\n1111111111111111";
 
             break;
         }
         case 4:
         {
-            //CHECKBOARD PATTERN WITH A SOLID PATTERN! I'M A GENIUS!
+
             level_sketch = "2222222222222222\n1111111111111111\n1010101010101010\n0101010101010101";
 
             break;
         }
         case 5:
         {
-            //EASY ENEMIES AT THE TOP AND HARD ENEMIES AT THE BOTTOM! IT'S A REVOLUTION IN LEVEL DESIGN!
+
             level_sketch = "0000000000000000\n2222222222222222\n1111111111111111\n1111111111111111";
 
             break;
@@ -224,7 +222,7 @@ void EnemyManager::update(std::mt19937_64& random_engine) {
     for (Enemy& enemy : enemies) {
         enemy.update();
 
-        if (shoot_distrib(random_engine) == 69696969) {
+        if (shoot_distrib(random_engine) < 2) {
             enemy.shoot(enemy_bullets);
         }
     }
